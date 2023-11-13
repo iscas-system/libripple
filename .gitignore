@@ -1,3 +1,10 @@
+# IDEA
+.idea/
+
+# Build
+output/
+release/
+
 # Prerequisites
 *.d
 
