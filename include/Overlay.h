@@ -12,6 +12,7 @@
 #define LIBRIPPLE_OVERLAY_H
 
 #include <vector>
+#include <memory>
 #include "NodeMetadata.h"
 #include "AbstractMessage.h"
 
@@ -27,12 +28,14 @@ namespace Ripple {
 
         Overlay &operator=(const Overlay &) = delete;
 
-        virtual void BuildOverlay(std::vector<NodeMetadata *> nodeList) = 0;
+        virtual void BuildOverlay(std::vector<std::shared_ptr<NodeMetadata>> nodeList) = 0;
 
-        virtual std::vector<NodeMetadata *>
-        CalculateNodesToSync(AbstractMessage *message, NodeMetadata *source, NodeMetadata *current) = 0;
+        virtual std::vector<std::shared_ptr<NodeMetadata>>
+        CalculateNodesToSync(std::shared_ptr<AbstractMessage> message, std::shared_ptr<NodeMetadata> source,
+                             std::shared_ptr<NodeMetadata> current) = 0;
 
-        virtual std::vector<NodeMetadata *> CalculateNodesToCollectAck(AbstractMessage *message) = 0;
+        virtual std::vector<std::shared_ptr<NodeMetadata>>
+        CalculateNodesToCollectAck(std::shared_ptr<AbstractMessage> message) = 0;
     };
 
 } // Ripple

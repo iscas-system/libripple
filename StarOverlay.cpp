@@ -19,17 +19,19 @@ namespace Ripple {
 
     }
 
-    void StarOverlay::BuildOverlay(std::vector<NodeMetadata *> nodeList) {
+    void StarOverlay::BuildOverlay(std::vector<std::shared_ptr<NodeMetadata>> nodeList) {
 
     }
 
-    std::vector<NodeMetadata *>
-    StarOverlay::CalculateNodesToSync(AbstractMessage *message, NodeMetadata *source, NodeMetadata *current) {
-        return std::vector<NodeMetadata *>();
+    std::vector<std::shared_ptr<NodeMetadata>>
+    StarOverlay::CalculateNodesToSync(std::shared_ptr<AbstractMessage> message, std::shared_ptr<NodeMetadata> source,
+                                      std::shared_ptr<NodeMetadata> current) {
+        return std::vector<std::shared_ptr<NodeMetadata>>();
     }
 
-    std::vector<NodeMetadata *> StarOverlay::CalculateNodesToCollectAck(AbstractMessage *message) {
-        return std::vector<NodeMetadata *>();
+    std::vector<std::shared_ptr<NodeMetadata>>
+    StarOverlay::CalculateNodesToCollectAck(std::shared_ptr<AbstractMessage> message) {
+        return std::vector<std::shared_ptr<NodeMetadata>>();
     }
 
 } // Ripple

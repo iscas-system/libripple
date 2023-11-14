@@ -19,16 +19,18 @@ namespace Ripple {
 
     }
 
-    void HashingBasedOverlay::BuildOverlay(std::vector<NodeMetadata *> nodeList) {
+    void HashingBasedOverlay::BuildOverlay(std::vector<std::shared_ptr<NodeMetadata>> nodeList) {
 
     }
 
-    std::vector<NodeMetadata *>
-    HashingBasedOverlay::CalculateNodesToSync(AbstractMessage *message, NodeMetadata *source, NodeMetadata *current) {
-        return std::vector<NodeMetadata *>();
+    std::vector<std::shared_ptr<NodeMetadata>>
+    HashingBasedOverlay::CalculateNodesToSync(std::shared_ptr<AbstractMessage> message, std::shared_ptr<NodeMetadata> source,
+                                          std::shared_ptr<NodeMetadata> current) {
+        return std::vector<std::shared_ptr<NodeMetadata>>();
     }
 
-    std::vector<NodeMetadata *> HashingBasedOverlay::CalculateNodesToCollectAck(AbstractMessage *message) {
-        return std::vector<NodeMetadata *>();
+    std::vector<std::shared_ptr<NodeMetadata>>
+    HashingBasedOverlay::CalculateNodesToCollectAck(std::shared_ptr<AbstractMessage> message) {
+        return std::vector<std::shared_ptr<NodeMetadata>>();
     }
 } // Ripple

@@ -20,16 +20,18 @@ namespace Ripple {
     }
 
 
-    void ExpanderOverlay::BuildOverlay(std::vector<NodeMetadata *> nodeList) {
+    void ExpanderOverlay::BuildOverlay(std::vector<std::shared_ptr<NodeMetadata>> nodeList) {
 
     }
 
-    std::vector<NodeMetadata *>
-    ExpanderOverlay::CalculateNodesToSync(AbstractMessage *message, NodeMetadata *source, NodeMetadata *current) {
-        return std::vector<NodeMetadata *>();
+    std::vector<std::shared_ptr<NodeMetadata>>
+    ExpanderOverlay::CalculateNodesToSync(std::shared_ptr<AbstractMessage> message, std::shared_ptr<NodeMetadata> source,
+                                      std::shared_ptr<NodeMetadata> current) {
+        return std::vector<std::shared_ptr<NodeMetadata>>();
     }
 
-    std::vector<NodeMetadata *> ExpanderOverlay::CalculateNodesToCollectAck(AbstractMessage *message) {
-        return std::vector<NodeMetadata *>();
+    std::vector<std::shared_ptr<NodeMetadata>>
+    ExpanderOverlay::CalculateNodesToCollectAck(std::shared_ptr<AbstractMessage> message) {
+        return std::vector<std::shared_ptr<NodeMetadata>>();
     }
 } // Ripple

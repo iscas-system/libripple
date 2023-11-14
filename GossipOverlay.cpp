@@ -19,16 +19,18 @@ namespace Ripple {
 
     }
 
-    void GossipOverlay::BuildOverlay(std::vector<NodeMetadata *> nodeList) {
+    void GossipOverlay::BuildOverlay(std::vector<std::shared_ptr<NodeMetadata>> nodeList) {
 
     }
 
-    std::vector<NodeMetadata *>
-    GossipOverlay::CalculateNodesToSync(AbstractMessage *message, NodeMetadata *source, NodeMetadata *current) {
-        return std::vector<NodeMetadata *>();
+    std::vector<std::shared_ptr<NodeMetadata>>
+    GossipOverlay::CalculateNodesToSync(std::shared_ptr<AbstractMessage> message, std::shared_ptr<NodeMetadata> source,
+                                          std::shared_ptr<NodeMetadata> current) {
+        return std::vector<std::shared_ptr<NodeMetadata>>();
     }
 
-    std::vector<NodeMetadata *> GossipOverlay::CalculateNodesToCollectAck(AbstractMessage *message) {
-        return std::vector<NodeMetadata *>();
+    std::vector<std::shared_ptr<NodeMetadata>>
+    GossipOverlay::CalculateNodesToCollectAck(std::shared_ptr<AbstractMessage> message) {
+        return std::vector<std::shared_ptr<NodeMetadata>>();
     }
 } // Ripple
