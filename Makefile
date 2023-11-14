@@ -40,6 +40,9 @@ DYNAMIC_TEST_OBJECTS = output/DynamicTest.o
 TARGETS = release/libripple.so release/StaticTest release/DynamicTest
 
 # Objects
+LIBRIPPLE_OBJECTS += output/NodeMetadata.o
+LIBRIPPLE_OBJECTS += output/AbstractMessage.o
+LIBRIPPLE_OBJECTS += output/Overlay.o output/StarOverlay.o output/TreeOverlay.o output/HashingBasedOverlay.o output/GossipOverlay.o output/ExpanderOverlay.o
 LIBRIPPLE_OBJECTS += output/Logger.o
 
 .PHONY: all prepare clean install
@@ -89,6 +92,30 @@ release/DynamicTest: output/DynamicTest.o install
 
 output/DynamicTest.o: tools/DynamicTest.cpp install
 	$(RIPPLE_CC) $(CPPFLAGS) -o $@ $<
+
+output/NodeMetadata.o: NodeMetadata.cpp include/NodeMetadata.h
+	$(RIPPLE_CC) $(CPPFLAGS) $(INCLUDE_FLAGS) -o $@ $<
+
+output/AbstractMessage.o: AbstractMessage.cpp include/AbstractMessage.h
+	$(RIPPLE_CC) $(CPPFLAGS) $(INCLUDE_FLAGS) -o $@ $<
+
+output/Overlay.o: Overlay.cpp include/Overlay.h
+	$(RIPPLE_CC) $(CPPFLAGS) $(INCLUDE_FLAGS) -o $@ $<
+
+output/TreeOverlay.o: TreeOverlay.cpp include/TreeOverlay.h
+	$(RIPPLE_CC) $(CPPFLAGS) $(INCLUDE_FLAGS) -o $@ $<
+
+output/HashingBasedOverlay.o: HashingBasedOverlay.cpp include/HashingBasedOverlay.h
+	$(RIPPLE_CC) $(CPPFLAGS) $(INCLUDE_FLAGS) -o $@ $<
+
+output/StarOverlay.o: StarOverlay.cpp include/StarOverlay.h
+	$(RIPPLE_CC) $(CPPFLAGS) $(INCLUDE_FLAGS) -o $@ $<
+
+output/GossipOverlay.o: GossipOverlay.cpp include/GossipOverlay.h
+	$(RIPPLE_CC) $(CPPFLAGS) $(INCLUDE_FLAGS) -o $@ $<
+
+output/ExpanderOverlay.o: ExpanderOverlay.cpp include/ExpanderOverlay.h
+	$(RIPPLE_CC) $(CPPFLAGS) $(INCLUDE_FLAGS) -o $@ $<
 
 output/Logger.o: Logger.cpp include/Logger.h
 	$(RIPPLE_CC) $(CPPFLAGS) $(INCLUDE_FLAGS) -o $@ $<
