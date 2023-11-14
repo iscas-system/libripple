@@ -18,4 +18,35 @@ namespace Ripple {
     NodeMetadata::~NodeMetadata() {
 
     }
+
+    NodeMetadata::NodeMetadata(int id, std::string address, int port) {
+        this->SetId(id);
+        this->SetAddress(address);
+        this->SetPort(port);
+    }
+
+    const int NodeMetadata::GetId() const {
+        return this->id;
+    }
+
+    void NodeMetadata::SetId(int id) {
+        this->id = id;
+    }
+
+    const std::string &NodeMetadata::GetAddress() const {
+        return this->address;
+    }
+
+    void NodeMetadata::SetAddress(std::string address) {
+        this->address = std::move(address);
+    }
+
+    const int NodeMetadata::GetPort() const {
+        return this->port;
+    }
+
+    void NodeMetadata::SetPort(int port) {
+        this->port = port;
+    }
+
 } // Ripple

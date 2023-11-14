@@ -11,11 +11,15 @@
 #ifndef LIBRIPPLE_NODEMETADATA_H
 #define LIBRIPPLE_NODEMETADATA_H
 
+#include <string>
+
 namespace Ripple {
 
     class NodeMetadata {
     public:
         NodeMetadata();
+
+        NodeMetadata(int id, std::string address, int port);
 
         virtual ~NodeMetadata();
 
@@ -23,6 +27,22 @@ namespace Ripple {
 
         NodeMetadata &operator=(const NodeMetadata &) = delete;
 
+        const int GetId() const;
+
+        void SetId(int id);
+
+        const std::string &GetAddress() const;
+
+        void SetAddress(std::string address);
+
+        const int GetPort() const;
+
+        void SetPort(int port);
+
+    private:
+        int id;
+        std::string address;
+        int port;
     };
 
 } // Ripple

@@ -25,6 +25,10 @@ namespace Ripple {
 
         StarOverlay &operator=(const StarOverlay &) = delete;
 
+        const std::vector<std::shared_ptr<NodeMetadata>> &GetNodeList() const;
+
+        void SetNodeList(std::vector<std::shared_ptr<NodeMetadata>> nodeList);
+
         void BuildOverlay(std::vector<std::shared_ptr<NodeMetadata>> nodeList) override;
 
         std::vector<std::shared_ptr<NodeMetadata>>
@@ -33,6 +37,9 @@ namespace Ripple {
 
         std::vector<std::shared_ptr<NodeMetadata>>
         CalculateNodesToCollectAck(std::shared_ptr<AbstractMessage> message) override;
+
+    private:
+        std::vector<std::shared_ptr<NodeMetadata>> nodeList;
     };
 
 } // Ripple
