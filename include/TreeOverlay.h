@@ -11,13 +11,15 @@
 #ifndef LIBRIPPLE_TREEOVERLAY_H
 #define LIBRIPPLE_TREEOVERLAY_H
 
+#include <map>
 #include "Overlay.h"
+#include "CompleteTree.h"
 
 namespace Ripple {
 
     class TreeOverlay final : public Overlay {
     public:
-        TreeOverlay();
+        explicit TreeOverlay(int branch);
 
         ~TreeOverlay() final;
 
@@ -33,6 +35,29 @@ namespace Ripple {
 
         std::vector<std::shared_ptr<NodeMetadata>>
         CalculateNodesToCollectAck(std::shared_ptr<AbstractMessage> message) override;
+
+        const int GetBranch() const;
+
+        void SetBranch(int branch);
+
+        const std::vector<std::shared_ptr<NodeMetadata>> &GetNodeList() const;
+
+        void SetNodeList(std::vector<std::shared_ptr<NodeMetadata>> nodeList);
+
+        std::map<int, std::shared_ptr<CompleteTree>> &GetTrees();
+
+        void SetTrees(std::map<int, std::shared_ptr<CompleteTree>> trees);
+
+    private:
+        int branch;
+        std::vector<std::shared_ptr<NodeMetadata>> nodeList;
+        std::map<int, std::shared_ptr<CompleteTree>> trees;
+
+        std::vector<std::shared_ptr<NodeMetadata>> calculateNodeListForSource(std::shared_ptr<NodeMetadata> source,
+                                                                              std::vector<std::shared_ptr<NodeMetadata>> nodeList);
+
+        std::vector<std::shared_ptr<NodeMetadata>>
+        generateNodeList(std::vector<std::shared_ptr<TreeNode>> treeNodeList);
     };
 
 } // Ripple

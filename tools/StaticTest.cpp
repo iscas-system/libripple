@@ -14,6 +14,7 @@
 #include "../include/NodeMetadata.h"
 #include "../include/StarOverlay.h"
 #include "../include/CompleteTree.h"
+#include "../include/TreeOverlay.h"
 
 void AssertEquals(int expected, int actual) {
     if (expected != actual) {
@@ -31,8 +32,10 @@ void TestStarOverlay() {
     list.push_back(nodeThree);
     std::unique_ptr<Ripple::Overlay> overlay(new Ripple::StarOverlay());
     overlay->BuildOverlay(list);
-    overlay->CalculateNodesToSync(nullptr, nodeOne, nodeOne);
-    overlay->CalculateNodesToSync(nullptr, nodeOne, nodeTwo);
+    auto ret = overlay->CalculateNodesToSync(nullptr, nodeOne, nodeOne);
+    AssertEquals(2, ret.size());
+    ret = overlay->CalculateNodesToSync(nullptr, nodeOne, nodeTwo);
+    AssertEquals(0, ret.size());
     overlay->CalculateNodesToCollectAck(nullptr);
 }
 
@@ -65,10 +68,31 @@ void TestCompleteTree() {
     AssertEquals(10, root->GetChildren().at(1)->GetChildren().at(2)->GetNodeMetadata()->GetId());
 }
 
+void TestTreeOverlay() {
+    int branch = 3;
+    int nodeCount = 10;
+    int i = 0;
+    std::vector<std::shared_ptr<Ripple::NodeMetadata>> nodeList;
+    for (i = 0; i < nodeCount; i++) {
+        nodeList.push_back(std::make_shared<Ripple::NodeMetadata>(i + 1, "test", 0));
+    }
+
+    Ripple::TreeOverlay treeOverlay(branch);
+    treeOverlay.BuildOverlay(nodeList);
+    auto list = treeOverlay.CalculateNodesToSync(nullptr, nodeList.at(0), nodeList.at(2));
+    AssertEquals(3, list.size());
+    AssertEquals(8, list.at(0)->GetId());
+    AssertEquals(9, list.at(1)->GetId());
+    AssertEquals(10, list.at(2)->GetId());
+
+    list = treeOverlay.CalculateNodesToSync(nullptr, nodeList.at(2), nodeList.at(0));
+    AssertEquals(0, list.size());
+}
+
 
 int main(int argc, char *argv[]) {
-    Ripple::Logger::Info("StaticTest", "Entering main().");
     TestStarOverlay();
     TestCompleteTree();
+    TestTreeOverlay();
     return 0;
 }

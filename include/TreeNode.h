@@ -19,7 +19,7 @@ namespace Ripple {
 
     class TreeNode {
     public:
-        TreeNode(std::shared_ptr<NodeMetadata> nodeMetadata);
+        explicit TreeNode(std::shared_ptr<NodeMetadata> nodeMetadata);
 
         virtual ~TreeNode();
 
