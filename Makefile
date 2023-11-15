@@ -42,7 +42,8 @@ TARGETS = release/libripple.so release/StaticTest release/DynamicTest
 # Objects
 LIBRIPPLE_OBJECTS += output/NodeMetadata.o
 LIBRIPPLE_OBJECTS += output/AbstractMessage.o
-LIBRIPPLE_OBJECTS += output/Overlay.o output/StarOverlay.o output/TreeOverlay.o output/HashingBasedOverlay.o output/GossipOverlay.o output/ExpanderOverlay.o
+LIBRIPPLE_OBJECTS += output/Overlay.o output/StarOverlay.o output/HashingBasedOverlay.o output/GossipOverlay.o output/ExpanderOverlay.o
+LIBRIPPLE_OBJECTS += output/TreeOverlay.o output/TreeNode.o output/CompleteTree.o
 LIBRIPPLE_OBJECTS += output/Logger.o
 
 .PHONY: all prepare clean install
@@ -103,6 +104,12 @@ output/Overlay.o: Overlay.cpp include/Overlay.h
 	$(RIPPLE_CC) $(CPPFLAGS) $(INCLUDE_FLAGS) -o $@ $<
 
 output/TreeOverlay.o: TreeOverlay.cpp include/TreeOverlay.h
+	$(RIPPLE_CC) $(CPPFLAGS) $(INCLUDE_FLAGS) -o $@ $<
+
+output/TreeNode.o: TreeNode.cpp include/TreeNode.h
+	$(RIPPLE_CC) $(CPPFLAGS) $(INCLUDE_FLAGS) -o $@ $<
+
+output/CompleteTree.o: CompleteTree.cpp include/CompleteTree.h
 	$(RIPPLE_CC) $(CPPFLAGS) $(INCLUDE_FLAGS) -o $@ $<
 
 output/HashingBasedOverlay.o: HashingBasedOverlay.cpp include/HashingBasedOverlay.h

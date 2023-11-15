@@ -13,6 +13,13 @@
 #include "../include/Logger.h"
 #include "../include/NodeMetadata.h"
 #include "../include/StarOverlay.h"
+#include "../include/CompleteTree.h"
+
+void AssertEquals(int expected, int actual) {
+    if (expected != actual) {
+        Ripple::Logger::Info("Assert", "Assertion failed: expected: %d, actual: %d.", expected, actual);
+    }
+}
 
 void TestStarOverlay() {
     std::vector<std::shared_ptr<Ripple::NodeMetadata>> list;
@@ -29,8 +36,39 @@ void TestStarOverlay() {
     overlay->CalculateNodesToCollectAck(nullptr);
 }
 
+void TestCompleteTree() {
+    int branch = 3;
+    int nodeCount = 10;
+    int i = 0;
+    std::vector<std::shared_ptr<Ripple::NodeMetadata>> nodeList;
+    for (i = 0; i < nodeCount; i++) {
+        nodeList.push_back(std::make_shared<Ripple::NodeMetadata>(i + 1, "test", 0));
+    }
+
+    Ripple::CompleteTree completeTree(branch, nodeList);
+    auto root = completeTree.GetRoot();
+    AssertEquals(1, root->GetNodeMetadata()->GetId());
+
+    AssertEquals(3, root->GetChildren().size());
+    AssertEquals(2, root->GetChildren().at(0)->GetNodeMetadata()->GetId());
+    AssertEquals(3, root->GetChildren().at(1)->GetNodeMetadata()->GetId());
+    AssertEquals(4, root->GetChildren().at(2)->GetNodeMetadata()->GetId());
+
+    AssertEquals(3, root->GetChildren().at(0)->GetChildren().size());
+    AssertEquals(5, root->GetChildren().at(0)->GetChildren().at(0)->GetNodeMetadata()->GetId());
+    AssertEquals(6, root->GetChildren().at(0)->GetChildren().at(1)->GetNodeMetadata()->GetId());
+    AssertEquals(7, root->GetChildren().at(0)->GetChildren().at(2)->GetNodeMetadata()->GetId());
+
+    AssertEquals(3, root->GetChildren().at(1)->GetChildren().size());
+    AssertEquals(8, root->GetChildren().at(1)->GetChildren().at(0)->GetNodeMetadata()->GetId());
+    AssertEquals(9, root->GetChildren().at(1)->GetChildren().at(1)->GetNodeMetadata()->GetId());
+    AssertEquals(10, root->GetChildren().at(1)->GetChildren().at(2)->GetNodeMetadata()->GetId());
+}
+
+
 int main(int argc, char *argv[]) {
     Ripple::Logger::Info("StaticTest", "Entering main().");
     TestStarOverlay();
+    TestCompleteTree();
     return 0;
 }
