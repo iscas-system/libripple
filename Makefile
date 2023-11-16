@@ -39,7 +39,7 @@ endif
 # Releases
 STATIC_TEST_OBJECTS = output/StaticTest.o
 DYNAMIC_TEST_OBJECTS = output/DynamicTest.o
-TARGETS = release/libripple.so release/StaticTest release/DynamicTest
+TARGETS = release/libripple.so release/StaticTest release/DynamicTest release/GoTest
 
 # Objects
 LIBRIPPLE_OBJECTS += output/NodeMetadata.o
@@ -81,14 +81,17 @@ output/libripple.o: libripple.cpp include/libripple.h
 release/StaticTest: output/StaticTest.o $(LIBRIPPLE_OBJECTS)
 	$(RIPPLE_LD) $(LDFLAGS) $(LIB_FLAGS) -o $@ $^
 
-output/StaticTest.o: tools/StaticTest.cpp
+output/StaticTest.o: test/StaticTest.cpp
 	$(RIPPLE_CC) $(CPPFLAGS) -o $@ $<
 
 release/DynamicTest: output/DynamicTest.o install
 	$(RIPPLE_LD) $(LDFLAGS) $(LIB_FLAGS) $(LIBRIPPLE_FLAGS) -o $@ $<
 
-output/DynamicTest.o: tools/DynamicTest.c install
+output/DynamicTest.o: test/DynamicTest.c install
 	$(QUIET_CC)$(GCC) $(CFLAGS) -o $@ $<
+
+release/GoTest: test/GoTest.go install
+	$(QUIET_CC)go build -o $@ $<
 
 output/NodeMetadata.o: NodeMetadata.cpp include/NodeMetadata.h
 	$(RIPPLE_CC) $(CPPFLAGS) $(INCLUDE_FLAGS) -o $@ $<
