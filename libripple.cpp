@@ -21,7 +21,7 @@ extern "C" {
 #endif
 
 void convertList(RippleNodeMetadata *buffer, std::vector<std::shared_ptr<Ripple::NodeMetadata>> &list);
-std::shared_ptr<Ripple::AbstractMessage> convertMessageFromStruct(struct AbstractMessage *message);
+std::shared_ptr<Ripple::AbstractMessage> convertMessageFromStruct(struct RippleAbstractMessage *message);
 
 void convertList(RippleNodeMetadata *buffer, std::vector<std::shared_ptr<Ripple::NodeMetadata>> &list) {
     int i = 0;
@@ -34,7 +34,7 @@ void convertList(RippleNodeMetadata *buffer, std::vector<std::shared_ptr<Ripple:
     }
 }
 
-std::shared_ptr<Ripple::AbstractMessage> convertMessageFromStruct(struct AbstractMessage *message) {
+std::shared_ptr<Ripple::AbstractMessage> convertMessageFromStruct(struct RippleAbstractMessage *message) {
     // TODO: Extract information from API input
     return std::make_shared<Ripple::AbstractMessage>();
 }
@@ -63,7 +63,7 @@ void RippleBuildOverlay(void *overlay, struct RippleNodeMetadata *nodeList, int 
 }
 
 
-int RippleCalculateNodesToSync(void *overlay, struct RippleNodeMetadata *buffer, struct AbstractMessage *message,
+int RippleCalculateNodesToSync(void *overlay, struct RippleNodeMetadata *buffer, struct RippleAbstractMessage *message,
                                struct RippleNodeMetadata *source,
                                struct RippleNodeMetadata *current) {
     auto sourceNode = std::make_shared<Ripple::NodeMetadata>(
@@ -77,7 +77,8 @@ int RippleCalculateNodesToSync(void *overlay, struct RippleNodeMetadata *buffer,
 }
 
 int
-RippleCalculateNodesToCollectAck(void *overlay, struct RippleNodeMetadata *buffer, struct AbstractMessage *message) {
+RippleCalculateNodesToCollectAck(void *overlay, struct RippleNodeMetadata *buffer,
+                                 struct RippleAbstractMessage *message) {
     auto list = ((Ripple::Overlay *) overlay)->CalculateNodesToCollectAck(convertMessageFromStruct(message));
     convertList(buffer, list);
     return (int) list.size();

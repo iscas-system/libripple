@@ -31,12 +31,12 @@ void *RippleCreateTreeOverlay(int branch);
 void RippleBuildOverlay(void *overlay, struct RippleNodeMetadata *nodeList, int nodeCount);
 
 // Returns the count of elements in the list. Results will be saved in the buffer.
-int RippleCalculateNodesToSync(void *overlay, struct RippleNodeMetadata *buffer, struct AbstractMessage *message,
+int RippleCalculateNodesToSync(void *overlay, struct RippleNodeMetadata *buffer, struct RippleAbstractMessage *message,
                                struct RippleNodeMetadata *source,
                                struct RippleNodeMetadata *current);
 
 // Returns the count of elements in the list. Results will be saved in the buffer.
-int RippleCalculateNodesToCollectAck(void *overlay, struct RippleNodeMetadata *buffer, struct AbstractMessage *message);
+int RippleCalculateNodesToCollectAck(void *overlay, struct RippleNodeMetadata *buffer, struct RippleAbstractMessage *message);
 
 void RippleDeleteOverlay(void *overlay);
 
