@@ -10,27 +10,40 @@
 
 #include "HashingBasedOverlay.h"
 
+// TODO: Implement this
 namespace Ripple {
-    HashingBasedOverlay::HashingBasedOverlay() {
+    namespace Server {
+        namespace Core {
+            namespace Overlay {
+                namespace Hashing {
+                    HashingBasedOverlay::HashingBasedOverlay() {
 
-    }
+                    }
 
-    HashingBasedOverlay::~HashingBasedOverlay() {
+                    HashingBasedOverlay::~HashingBasedOverlay() {
 
-    }
+                    }
 
-    void HashingBasedOverlay::BuildOverlay(std::vector<std::shared_ptr<NodeMetadata>> nodeList) {
+                    void HashingBasedOverlay::BuildOverlay(
+                            std::vector<std::shared_ptr<Ripple::Common::Entity::NodeMetadata>> nodeList) {
 
-    }
+                    }
 
-    std::vector<std::shared_ptr<NodeMetadata>>
-    HashingBasedOverlay::CalculateNodesToSync(std::shared_ptr<AbstractMessage> message, std::shared_ptr<NodeMetadata> source,
-                                          std::shared_ptr<NodeMetadata> current) {
-        return std::vector<std::shared_ptr<NodeMetadata>>();
-    }
+                    std::vector<std::shared_ptr<Ripple::Common::Entity::NodeMetadata>>
+                    HashingBasedOverlay::CalculateNodesToSync(
+                            std::shared_ptr<Ripple::Common::Entity::AbstractMessage> message,
+                            std::shared_ptr<Ripple::Common::Entity::NodeMetadata> source,
+                            std::shared_ptr<Ripple::Common::Entity::NodeMetadata> current) {
+                        return std::vector<std::shared_ptr<Ripple::Common::Entity::NodeMetadata>>();
+                    }
 
-    std::vector<std::shared_ptr<NodeMetadata>>
-    HashingBasedOverlay::CalculateNodesToCollectAck(std::shared_ptr<AbstractMessage> message) {
-        return std::vector<std::shared_ptr<NodeMetadata>>();
+                    std::vector<std::shared_ptr<Ripple::Common::Entity::NodeMetadata>>
+                    HashingBasedOverlay::CalculateNodesToCollectAck(
+                            std::shared_ptr<Ripple::Common::Entity::AbstractMessage> message) {
+                        return std::vector<std::shared_ptr<Ripple::Common::Entity::NodeMetadata>>();
+                    }
+                }
+            }
+        }
     }
 } // Ripple

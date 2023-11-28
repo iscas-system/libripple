@@ -16,30 +16,36 @@
 #include "NodeMetadata.h"
 
 namespace Ripple {
+    namespace Server {
+        namespace Core {
+            namespace Overlay {
+                namespace Tree {
+                    class TreeNode {
+                    public:
+                        explicit TreeNode(std::shared_ptr<Ripple::Common::Entity::NodeMetadata> nodeMetadata);
 
-    class TreeNode {
-    public:
-        explicit TreeNode(std::shared_ptr<NodeMetadata> nodeMetadata);
+                        virtual ~TreeNode();
 
-        virtual ~TreeNode();
+                        TreeNode(const TreeNode &) = delete;
 
-        TreeNode(const TreeNode &) = delete;
+                        TreeNode &operator=(const TreeNode &) = delete;
 
-        TreeNode &operator=(const TreeNode &) = delete;
+                        const std::shared_ptr<Ripple::Common::Entity::NodeMetadata> &GetNodeMetadata() const;
 
-        const std::shared_ptr<NodeMetadata> &GetNodeMetadata() const;
+                        void SetNodeMetadata(std::shared_ptr<Ripple::Common::Entity::NodeMetadata> nodeMetadata);
 
-        void SetNodeMetadata(std::shared_ptr<NodeMetadata> nodeMetadata);
+                        std::vector<std::shared_ptr<TreeNode>> &GetChildren();
 
-        std::vector<std::shared_ptr<TreeNode>> &GetChildren();
+                        void SetChildren(std::vector<std::shared_ptr<TreeNode>> children);
 
-        void SetChildren(std::vector<std::shared_ptr<TreeNode>> children);
-
-    private:
-        std::shared_ptr<NodeMetadata> nodeMetadata;
-        std::vector<std::shared_ptr<TreeNode>> children;
-    };
-
+                    private:
+                        std::shared_ptr<Ripple::Common::Entity::NodeMetadata> nodeMetadata;
+                        std::vector<std::shared_ptr<TreeNode>> children;
+                    };
+                }
+            }
+        }
+    }
 } // Ripple
 
 #endif //LIBRIPPLE_TREENODE_H

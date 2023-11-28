@@ -17,27 +17,34 @@
 #include "AbstractMessage.h"
 
 namespace Ripple {
+    namespace Server {
+        namespace Core {
+            namespace Overlay {
 
-    class Overlay {
-    public:
-        Overlay();
+                class Overlay {
+                public:
+                    Overlay();
 
-        virtual ~Overlay();
+                    virtual ~Overlay();
 
-        Overlay(const Overlay &) = delete;
+                    Overlay(const Overlay &) = delete;
 
-        Overlay &operator=(const Overlay &) = delete;
+                    Overlay &operator=(const Overlay &) = delete;
 
-        virtual void BuildOverlay(std::vector<std::shared_ptr<NodeMetadata>> nodeList) = 0;
+                    virtual void
+                    BuildOverlay(std::vector<std::shared_ptr<Ripple::Common::Entity::NodeMetadata>> nodeList) = 0;
 
-        virtual std::vector<std::shared_ptr<NodeMetadata>>
-        CalculateNodesToSync(std::shared_ptr<AbstractMessage> message, std::shared_ptr<NodeMetadata> source,
-                             std::shared_ptr<NodeMetadata> current) = 0;
+                    virtual std::vector<std::shared_ptr<Ripple::Common::Entity::NodeMetadata>>
+                    CalculateNodesToSync(std::shared_ptr<Ripple::Common::Entity::AbstractMessage> message,
+                                         std::shared_ptr<Ripple::Common::Entity::NodeMetadata> source,
+                                         std::shared_ptr<Ripple::Common::Entity::NodeMetadata> current) = 0;
 
-        virtual std::vector<std::shared_ptr<NodeMetadata>>
-        CalculateNodesToCollectAck(std::shared_ptr<AbstractMessage> message) = 0;
-    };
-
+                    virtual std::vector<std::shared_ptr<Ripple::Common::Entity::NodeMetadata>>
+                    CalculateNodesToCollectAck(std::shared_ptr<Ripple::Common::Entity::AbstractMessage> message) = 0;
+                };
+            }
+        }
+    }
 } // Ripple
 
 #endif //LIBRIPPLE_OVERLAY_H

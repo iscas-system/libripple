@@ -20,10 +20,11 @@
 extern "C" {
 #endif
 
-void convertList(RippleNodeMetadata *buffer, std::vector<std::shared_ptr<Ripple::NodeMetadata>> &list);
-std::shared_ptr<Ripple::AbstractMessage> convertMessageFromStruct(struct RippleAbstractMessage *message);
+void convertList(RippleNodeMetadata *buffer, std::vector<std::shared_ptr<Ripple::Common::Entity::NodeMetadata>> &list);
+std::shared_ptr<Ripple::Common::Entity::AbstractMessage>
+convertMessageFromStruct(struct RippleAbstractMessage *message);
 
-void convertList(RippleNodeMetadata *buffer, std::vector<std::shared_ptr<Ripple::NodeMetadata>> &list) {
+void convertList(RippleNodeMetadata *buffer, std::vector<std::shared_ptr<Ripple::Common::Entity::NodeMetadata>> &list) {
     int i = 0;
     for (i = 0; i < (int) list.size(); i++) {
         auto node = list.at(i);
@@ -34,44 +35,46 @@ void convertList(RippleNodeMetadata *buffer, std::vector<std::shared_ptr<Ripple:
     }
 }
 
-std::shared_ptr<Ripple::AbstractMessage> convertMessageFromStruct(struct RippleAbstractMessage *message) {
+std::shared_ptr<Ripple::Common::Entity::AbstractMessage>
+convertMessageFromStruct(struct RippleAbstractMessage *message) {
     // TODO: Extract information from API input
-    return std::make_shared<Ripple::AbstractMessage>();
+    return std::make_shared<Ripple::Common::Entity::AbstractMessage>();
 }
 
 void RippleLoggerInfo(const char *source, const char *format) {
-    Ripple::Logger::Info(source, format);
+    Ripple::Common::Logger::Info(source, format);
 }
 
 void *RippleCreateStarOverlay() {
-    return new Ripple::StarOverlay();
+    return new Ripple::Server::Core::Overlay::StarOverlay();
 }
 
 void *RippleCreateTreeOverlay(int branch) {
-    return new Ripple::TreeOverlay(branch);
+    return new Ripple::Server::Core::Overlay::Tree::TreeOverlay(branch);
 }
 
 void RippleBuildOverlay(void *overlay, struct RippleNodeMetadata *nodeList, int nodeCount) {
-    std::vector<std::shared_ptr<Ripple::NodeMetadata>> list;
+    std::vector<std::shared_ptr<Ripple::Common::Entity::NodeMetadata>> list;
     int i = 0;
     for (i = 0; i < nodeCount; i++) {
-        auto node = std::make_shared<Ripple::NodeMetadata>(
+        auto node = std::make_shared<Ripple::Common::Entity::NodeMetadata>(
                 nodeList[i].Id, std::string(nodeList[i].Address), nodeList[i].Port);
         list.push_back(node);
     }
-    ((Ripple::Overlay *) overlay)->BuildOverlay(list);
+    ((Ripple::Server::Core::Overlay::Overlay *) overlay)->BuildOverlay(list);
 }
 
 
 int RippleCalculateNodesToSync(void *overlay, struct RippleNodeMetadata *buffer, struct RippleAbstractMessage *message,
                                struct RippleNodeMetadata *source,
                                struct RippleNodeMetadata *current) {
-    auto sourceNode = std::make_shared<Ripple::NodeMetadata>(
+    auto sourceNode = std::make_shared<Ripple::Common::Entity::NodeMetadata>(
             source->Id, std::string(source->Address), source->Port);
-    auto currentNode = std::make_shared<Ripple::NodeMetadata>(
+    auto currentNode = std::make_shared<Ripple::Common::Entity::NodeMetadata>(
             current->Id, std::string(current->Address), current->Port);
-    auto list = ((Ripple::Overlay *) overlay)->CalculateNodesToSync(convertMessageFromStruct(message), sourceNode,
-                                                                    currentNode);
+    auto list = ((Ripple::Server::Core::Overlay::Overlay *) overlay)->CalculateNodesToSync(
+            convertMessageFromStruct(message), sourceNode,
+            currentNode);
     convertList(buffer, list);
     return (int) list.size();
 }
@@ -79,13 +82,14 @@ int RippleCalculateNodesToSync(void *overlay, struct RippleNodeMetadata *buffer,
 int
 RippleCalculateNodesToCollectAck(void *overlay, struct RippleNodeMetadata *buffer,
                                  struct RippleAbstractMessage *message) {
-    auto list = ((Ripple::Overlay *) overlay)->CalculateNodesToCollectAck(convertMessageFromStruct(message));
+    auto list = ((Ripple::Server::Core::Overlay::Overlay *) overlay)->CalculateNodesToCollectAck(
+            convertMessageFromStruct(message));
     convertList(buffer, list);
     return (int) list.size();
 }
 
 void RippleDeleteOverlay(void *overlay) {
-    delete ((Ripple::Overlay *) overlay);
+    delete ((Ripple::Server::Core::Overlay::Overlay *) overlay);
 }
 
 

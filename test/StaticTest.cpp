@@ -18,19 +18,19 @@
 
 void AssertEquals(int expected, int actual) {
     if (expected != actual) {
-        Ripple::Logger::Info("Assert", "Assertion failed: expected: %d, actual: %d.", expected, actual);
+        Ripple::Common::Logger::Info("Assert", "Assertion failed: expected: %d, actual: %d.", expected, actual);
     }
 }
 
 void TestStarOverlay() {
-    std::vector<std::shared_ptr<Ripple::NodeMetadata>> list;
-    auto nodeOne = std::make_shared<Ripple::NodeMetadata>(1, "192.168.1.1", 8080);
-    auto nodeTwo = std::make_shared<Ripple::NodeMetadata>(2, "192.168.1.2", 8080);
-    auto nodeThree = std::make_shared<Ripple::NodeMetadata>(3, "192.168.1.3", 8080);
+    std::vector<std::shared_ptr<Ripple::Common::Entity::NodeMetadata>> list;
+    auto nodeOne = std::make_shared<Ripple::Common::Entity::NodeMetadata>(1, "192.168.1.1", 8080);
+    auto nodeTwo = std::make_shared<Ripple::Common::Entity::NodeMetadata>(2, "192.168.1.2", 8080);
+    auto nodeThree = std::make_shared<Ripple::Common::Entity::NodeMetadata>(3, "192.168.1.3", 8080);
     list.push_back(nodeOne);
     list.push_back(nodeTwo);
     list.push_back(nodeThree);
-    std::unique_ptr<Ripple::Overlay> overlay(new Ripple::StarOverlay());
+    std::unique_ptr<Ripple::Server::Core::Overlay::Overlay> overlay(new Ripple::Server::Core::Overlay::StarOverlay());
     overlay->BuildOverlay(list);
     auto ret = overlay->CalculateNodesToSync(nullptr, nodeOne, nodeOne);
     AssertEquals(2, ret.size());
@@ -43,12 +43,12 @@ void TestCompleteTree() {
     int branch = 3;
     int nodeCount = 10;
     int i = 0;
-    std::vector<std::shared_ptr<Ripple::NodeMetadata>> nodeList;
+    std::vector<std::shared_ptr<Ripple::Common::Entity::NodeMetadata>> nodeList;
     for (i = 0; i < nodeCount; i++) {
-        nodeList.push_back(std::make_shared<Ripple::NodeMetadata>(i + 1, "test", 0));
+        nodeList.push_back(std::make_shared<Ripple::Common::Entity::NodeMetadata>(i + 1, "test", 0));
     }
 
-    Ripple::CompleteTree completeTree(branch, nodeList);
+    Ripple::Server::Core::Overlay::Tree::CompleteTree completeTree(branch, nodeList);
     auto root = completeTree.GetRoot();
     AssertEquals(1, root->GetNodeMetadata()->GetId());
 
@@ -72,12 +72,12 @@ void TestTreeOverlay() {
     int branch = 3;
     int nodeCount = 10;
     int i = 0;
-    std::vector<std::shared_ptr<Ripple::NodeMetadata>> nodeList;
+    std::vector<std::shared_ptr<Ripple::Common::Entity::NodeMetadata>> nodeList;
     for (i = 0; i < nodeCount; i++) {
-        nodeList.push_back(std::make_shared<Ripple::NodeMetadata>(i + 1, "test", 0));
+        nodeList.push_back(std::make_shared<Ripple::Common::Entity::NodeMetadata>(i + 1, "test", 0));
     }
 
-    Ripple::TreeOverlay treeOverlay(branch);
+    Ripple::Server::Core::Overlay::Tree::TreeOverlay treeOverlay(branch);
     treeOverlay.BuildOverlay(nodeList);
     auto list = treeOverlay.CalculateNodesToSync(nullptr, nodeList.at(0), nodeList.at(2));
     AssertEquals(3, list.size());

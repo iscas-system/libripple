@@ -11,29 +11,37 @@
 #include "TreeNode.h"
 
 namespace Ripple {
-    TreeNode::TreeNode(std::shared_ptr<NodeMetadata> nodeMetadata)
-            : nodeMetadata(nodeMetadata),
-              children(std::vector<std::shared_ptr<TreeNode>>()) {
+    namespace Server {
+        namespace Core {
+            namespace Overlay {
+                namespace Tree {
+                    TreeNode::TreeNode(std::shared_ptr<Ripple::Common::Entity::NodeMetadata> nodeMetadata)
+                            : nodeMetadata(nodeMetadata),
+                              children(std::vector<std::shared_ptr<TreeNode>>()) {
 
-    }
+                    }
 
-    TreeNode::~TreeNode() {
+                    TreeNode::~TreeNode() {
 
-    }
+                    }
 
-    const std::shared_ptr<NodeMetadata> &TreeNode::GetNodeMetadata() const {
-        return this->nodeMetadata;
-    }
+                    const std::shared_ptr<Ripple::Common::Entity::NodeMetadata> &TreeNode::GetNodeMetadata() const {
+                        return this->nodeMetadata;
+                    }
 
-    void TreeNode::SetNodeMetadata(std::shared_ptr<NodeMetadata> nodeMetadata) {
-        this->nodeMetadata = std::move(nodeMetadata);
-    }
+                    void TreeNode::SetNodeMetadata(std::shared_ptr<Ripple::Common::Entity::NodeMetadata> nodeMetadata) {
+                        this->nodeMetadata = std::move(nodeMetadata);
+                    }
 
-    std::vector<std::shared_ptr<TreeNode>> &TreeNode::GetChildren()  {
-        return this->children;
-    }
+                    std::vector<std::shared_ptr<TreeNode>> &TreeNode::GetChildren() {
+                        return this->children;
+                    }
 
-    void TreeNode::SetChildren(std::vector<std::shared_ptr<TreeNode>> children) {
-        this->children = std::move(children);
+                    void TreeNode::SetChildren(std::vector<std::shared_ptr<TreeNode>> children) {
+                        this->children = std::move(children);
+                    }
+                }
+            }
+        }
     }
 } // Ripple

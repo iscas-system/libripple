@@ -16,50 +16,60 @@
 #include "CompleteTree.h"
 
 namespace Ripple {
+    namespace Server {
+        namespace Core {
+            namespace Overlay {
+                namespace Tree {
+                    class TreeOverlay final : public Overlay {
+                    public:
+                        explicit TreeOverlay(int branch);
 
-    class TreeOverlay final : public Overlay {
-    public:
-        explicit TreeOverlay(int branch);
+                        ~TreeOverlay() final;
 
-        ~TreeOverlay() final;
+                        TreeOverlay(const TreeOverlay &) = delete;
 
-        TreeOverlay(const TreeOverlay &) = delete;
+                        TreeOverlay &operator=(const TreeOverlay &) = delete;
 
-        TreeOverlay &operator=(const TreeOverlay &) = delete;
+                        void BuildOverlay(
+                                std::vector<std::shared_ptr<Ripple::Common::Entity::NodeMetadata>> nodeList) override;
 
-        void BuildOverlay(std::vector<std::shared_ptr<NodeMetadata>> nodeList) override;
+                        std::vector<std::shared_ptr<Ripple::Common::Entity::NodeMetadata>>
+                        CalculateNodesToSync(std::shared_ptr<Ripple::Common::Entity::AbstractMessage> message,
+                                             std::shared_ptr<Ripple::Common::Entity::NodeMetadata> source,
+                                             std::shared_ptr<Ripple::Common::Entity::NodeMetadata> current) override;
 
-        std::vector<std::shared_ptr<NodeMetadata>>
-        CalculateNodesToSync(std::shared_ptr<AbstractMessage> message, std::shared_ptr<NodeMetadata> source,
-                             std::shared_ptr<NodeMetadata> current) override;
+                        std::vector<std::shared_ptr<Ripple::Common::Entity::NodeMetadata>>
+                        CalculateNodesToCollectAck(
+                                std::shared_ptr<Ripple::Common::Entity::AbstractMessage> message) override;
 
-        std::vector<std::shared_ptr<NodeMetadata>>
-        CalculateNodesToCollectAck(std::shared_ptr<AbstractMessage> message) override;
+                        const int GetBranch() const;
 
-        const int GetBranch() const;
+                        void SetBranch(int branch);
 
-        void SetBranch(int branch);
+                        const std::vector<std::shared_ptr<Ripple::Common::Entity::NodeMetadata>> &GetNodeList() const;
 
-        const std::vector<std::shared_ptr<NodeMetadata>> &GetNodeList() const;
+                        void SetNodeList(std::vector<std::shared_ptr<Ripple::Common::Entity::NodeMetadata>> nodeList);
 
-        void SetNodeList(std::vector<std::shared_ptr<NodeMetadata>> nodeList);
+                        std::map<int, std::shared_ptr<CompleteTree>> &GetTrees();
 
-        std::map<int, std::shared_ptr<CompleteTree>> &GetTrees();
+                        void SetTrees(std::map<int, std::shared_ptr<CompleteTree>> trees);
 
-        void SetTrees(std::map<int, std::shared_ptr<CompleteTree>> trees);
+                    private:
+                        int branch;
+                        std::vector<std::shared_ptr<Ripple::Common::Entity::NodeMetadata>> nodeList;
+                        std::map<int, std::shared_ptr<CompleteTree>> trees;
 
-    private:
-        int branch;
-        std::vector<std::shared_ptr<NodeMetadata>> nodeList;
-        std::map<int, std::shared_ptr<CompleteTree>> trees;
+                        std::vector<std::shared_ptr<Ripple::Common::Entity::NodeMetadata>>
+                        calculateNodeListForSource(std::shared_ptr<Ripple::Common::Entity::NodeMetadata> source,
+                                                   std::vector<std::shared_ptr<Ripple::Common::Entity::NodeMetadata>> nodeList);
 
-        std::vector<std::shared_ptr<NodeMetadata>> calculateNodeListForSource(std::shared_ptr<NodeMetadata> source,
-                                                                              std::vector<std::shared_ptr<NodeMetadata>> nodeList);
-
-        std::vector<std::shared_ptr<NodeMetadata>>
-        generateNodeList(std::vector<std::shared_ptr<TreeNode>> treeNodeList);
-    };
-
+                        std::vector<std::shared_ptr<Ripple::Common::Entity::NodeMetadata>>
+                        generateNodeList(std::vector<std::shared_ptr<TreeNode>> treeNodeList);
+                    };
+                }
+            }
+        }
+    }
 } // Ripple
 
 #endif //LIBRIPPLE_TREEOVERLAY_H

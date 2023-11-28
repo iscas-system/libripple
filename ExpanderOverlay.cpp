@@ -10,28 +10,38 @@
 
 #include "ExpanderOverlay.h"
 
+// TODO: Implement this
 namespace Ripple {
-    ExpanderOverlay::ExpanderOverlay() {
+    namespace Server {
+        namespace Core {
+            namespace Overlay {
+                ExpanderOverlay::ExpanderOverlay() {
 
-    }
+                }
 
-    ExpanderOverlay::~ExpanderOverlay() {
+                ExpanderOverlay::~ExpanderOverlay() {
 
-    }
+                }
 
 
-    void ExpanderOverlay::BuildOverlay(std::vector<std::shared_ptr<NodeMetadata>> nodeList) {
+                void ExpanderOverlay::BuildOverlay(
+                        std::vector<std::shared_ptr<Ripple::Common::Entity::NodeMetadata>> nodeList) {
 
-    }
+                }
 
-    std::vector<std::shared_ptr<NodeMetadata>>
-    ExpanderOverlay::CalculateNodesToSync(std::shared_ptr<AbstractMessage> message, std::shared_ptr<NodeMetadata> source,
-                                      std::shared_ptr<NodeMetadata> current) {
-        return std::vector<std::shared_ptr<NodeMetadata>>();
-    }
+                std::vector<std::shared_ptr<Ripple::Common::Entity::NodeMetadata>>
+                ExpanderOverlay::CalculateNodesToSync(std::shared_ptr<Ripple::Common::Entity::AbstractMessage> message,
+                                                      std::shared_ptr<Ripple::Common::Entity::NodeMetadata> source,
+                                                      std::shared_ptr<Ripple::Common::Entity::NodeMetadata> current) {
+                    return std::vector<std::shared_ptr<Ripple::Common::Entity::NodeMetadata>>();
+                }
 
-    std::vector<std::shared_ptr<NodeMetadata>>
-    ExpanderOverlay::CalculateNodesToCollectAck(std::shared_ptr<AbstractMessage> message) {
-        return std::vector<std::shared_ptr<NodeMetadata>>();
+                std::vector<std::shared_ptr<Ripple::Common::Entity::NodeMetadata>>
+                ExpanderOverlay::CalculateNodesToCollectAck(
+                        std::shared_ptr<Ripple::Common::Entity::AbstractMessage> message) {
+                    return std::vector<std::shared_ptr<Ripple::Common::Entity::NodeMetadata>>();
+                }
+            }
+        }
     }
 } // Ripple

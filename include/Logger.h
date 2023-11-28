@@ -12,25 +12,25 @@
 #define LIBRIPPLE_LOGGER_H
 
 namespace Ripple {
+    namespace Common {
+        class Logger {
+        public:
+            Logger(const Logger &) = delete;
 
-    class Logger {
-    public:
-        Logger(const Logger &) = delete;
+            Logger &operator=(const Logger &) = delete;
 
-        Logger &operator=(const Logger &) = delete;
+            static void Info(const char *source, const char *format, ...);
 
-        static void Info(const char *source, const char *format, ...);
+            static void Error(int errorNumber, const char *source, const char *format, ...);
 
-        static void Error(int errorNumber, const char *source, const char *format, ...);
+            static bool Enable;
+            static int LogLevel;
+        private:
+            Logger();
 
-        static bool Enable;
-        static int LogLevel;
-    private:
-        Logger();
-
-        virtual ~Logger();
-    };
-
+            virtual ~Logger();
+        };
+    }
 } // Ripple
 
 #endif //LIBRIPPLE_LOGGER_H

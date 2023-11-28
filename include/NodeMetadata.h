@@ -14,37 +14,40 @@
 #include <string>
 
 namespace Ripple {
+    namespace Common {
+        namespace Entity {
 
-    class NodeMetadata {
-    public:
-        NodeMetadata();
+            class NodeMetadata {
+            public:
+                NodeMetadata();
 
-        NodeMetadata(int id, std::string address, int port);
+                NodeMetadata(int id, std::string address, int port);
 
-        virtual ~NodeMetadata();
+                virtual ~NodeMetadata();
 
-        NodeMetadata(const NodeMetadata &) = delete;
+                NodeMetadata(const NodeMetadata &) = delete;
 
-        NodeMetadata &operator=(const NodeMetadata &) = delete;
+                NodeMetadata &operator=(const NodeMetadata &) = delete;
 
-        const int GetId() const;
+                const int GetId() const;
 
-        void SetId(int id);
+                void SetId(int id);
 
-        const std::string &GetAddress() const;
+                const std::string &GetAddress() const;
 
-        void SetAddress(std::string address);
+                void SetAddress(std::string address);
 
-        const int GetPort() const;
+                const int GetPort() const;
 
-        void SetPort(int port);
+                void SetPort(int port);
 
-    private:
-        int id;
-        std::string address;
-        int port;
-    };
-
+            private:
+                int id;
+                std::string address;
+                int port;
+            };
+        }
+    }
 } // Ripple
 
 #endif //LIBRIPPLE_NODEMETADATA_H

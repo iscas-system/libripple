@@ -11,11 +11,17 @@
 #include "Overlay.h"
 
 namespace Ripple {
-    Overlay::Overlay() {
+    namespace Server {
+        namespace Core {
+            namespace Overlay {
+                Overlay::Overlay() {
 
-    }
+                }
 
-    Overlay::~Overlay() {
+                Overlay::~Overlay() {
 
+                }
+            }
+        }
     }
 } // Ripple

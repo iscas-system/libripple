@@ -10,12 +10,17 @@
 
 #include "AbstractMessage.h"
 
+// TODO: Implement this
 namespace Ripple {
-    AbstractMessage::AbstractMessage() {
+    namespace Common {
+        namespace Entity {
+            AbstractMessage::AbstractMessage() {
 
-    }
+            }
 
-    AbstractMessage::~AbstractMessage() {
+            AbstractMessage::~AbstractMessage() {
 
+            }
+        }
     }
 } // Ripple

@@ -14,34 +14,42 @@
 #include "Overlay.h"
 
 namespace Ripple {
+    namespace Server {
+        namespace Core {
+            namespace Overlay {
 
-    class StarOverlay final : public Overlay {
-    public:
-        StarOverlay();
+                class StarOverlay final : public Overlay {
+                public:
+                    StarOverlay();
 
-        ~StarOverlay() final;
+                    ~StarOverlay() final;
 
-        StarOverlay(const StarOverlay &) = delete;
+                    StarOverlay(const StarOverlay &) = delete;
 
-        StarOverlay &operator=(const StarOverlay &) = delete;
+                    StarOverlay &operator=(const StarOverlay &) = delete;
 
-        const std::vector<std::shared_ptr<NodeMetadata>> &GetNodeList() const;
+                    const std::vector<std::shared_ptr<Ripple::Common::Entity::NodeMetadata>> &GetNodeList() const;
 
-        void SetNodeList(std::vector<std::shared_ptr<NodeMetadata>> nodeList);
+                    void SetNodeList(std::vector<std::shared_ptr<Ripple::Common::Entity::NodeMetadata>> nodeList);
 
-        void BuildOverlay(std::vector<std::shared_ptr<NodeMetadata>> nodeList) override;
+                    void
+                    BuildOverlay(std::vector<std::shared_ptr<Ripple::Common::Entity::NodeMetadata>> nodeList) override;
 
-        std::vector<std::shared_ptr<NodeMetadata>>
-        CalculateNodesToSync(std::shared_ptr<AbstractMessage> message, std::shared_ptr<NodeMetadata> source,
-                             std::shared_ptr<NodeMetadata> current) override;
+                    std::vector<std::shared_ptr<Ripple::Common::Entity::NodeMetadata>>
+                    CalculateNodesToSync(std::shared_ptr<Ripple::Common::Entity::AbstractMessage> message,
+                                         std::shared_ptr<Ripple::Common::Entity::NodeMetadata> source,
+                                         std::shared_ptr<Ripple::Common::Entity::NodeMetadata> current) override;
 
-        std::vector<std::shared_ptr<NodeMetadata>>
-        CalculateNodesToCollectAck(std::shared_ptr<AbstractMessage> message) override;
+                    std::vector<std::shared_ptr<Ripple::Common::Entity::NodeMetadata>>
+                    CalculateNodesToCollectAck(
+                            std::shared_ptr<Ripple::Common::Entity::AbstractMessage> message) override;
 
-    private:
-        std::vector<std::shared_ptr<NodeMetadata>> nodeList;
-    };
-
+                private:
+                    std::vector<std::shared_ptr<Ripple::Common::Entity::NodeMetadata>> nodeList;
+                };
+            }
+        }
+    }
 } // Ripple
 
 #endif //LIBRIPPLE_STAROVERLAY_H

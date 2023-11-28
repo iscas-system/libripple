@@ -11,19 +11,23 @@
 #ifndef LIBRIPPLE_ABSTRACTMESSAGE_H
 #define LIBRIPPLE_ABSTRACTMESSAGE_H
 
+// TODO: Implement this
 namespace Ripple {
+    namespace Common {
+        namespace Entity {
 
-    class AbstractMessage {
-    public:
-        AbstractMessage();
+            class AbstractMessage {
+            public:
+                AbstractMessage();
 
-        virtual ~AbstractMessage();
+                virtual ~AbstractMessage();
 
-        AbstractMessage(const AbstractMessage &) = delete;
+                AbstractMessage(const AbstractMessage &) = delete;
 
-        AbstractMessage &operator=(const AbstractMessage &) = delete;
-    };
-
+                AbstractMessage &operator=(const AbstractMessage &) = delete;
+            };
+        }
+    }
 } // Ripple
 
 #endif //LIBRIPPLE_ABSTRACTMESSAGE_H

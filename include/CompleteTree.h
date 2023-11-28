@@ -16,36 +16,43 @@
 #include "TreeNode.h"
 
 namespace Ripple {
+    namespace Server {
+        namespace Core {
+            namespace Overlay {
+                namespace Tree {
+                    class CompleteTree {
+                    public:
+                        CompleteTree(int branch, std::vector<std::shared_ptr<Ripple::Common::Entity::NodeMetadata>> nodeList);
 
-    class CompleteTree {
-    public:
-        CompleteTree(int branch, std::vector<std::shared_ptr<NodeMetadata>> nodeList);
+                        virtual ~CompleteTree();
 
-        virtual ~CompleteTree();
+                        CompleteTree(const CompleteTree &) = delete;
 
-        CompleteTree(const CompleteTree &) = delete;
+                        CompleteTree &operator=(const CompleteTree &) = delete;
 
-        CompleteTree &operator=(const CompleteTree &) = delete;
+                        const int GetBranch() const;
 
-        const int GetBranch() const;
+                        void SetBranch(int branch);
 
-        void SetBranch(int branch);
+                        const std::shared_ptr<TreeNode> &GetRoot() const;
 
-        const std::shared_ptr<TreeNode> & GetRoot() const;
+                        void SetRoot(std::shared_ptr<TreeNode> root);
 
-        void SetRoot(std::shared_ptr<TreeNode> root);
+                        const std::vector<std::shared_ptr<TreeNode>> &GetNodeList() const;
 
-        const std::vector<std::shared_ptr<TreeNode>> &GetNodeList() const;
+                        void SetNodeList(std::vector<std::shared_ptr<TreeNode>> nodeList);
 
-        void SetNodeList(std::vector<std::shared_ptr<TreeNode>> nodeList);
+                    private:
+                        int branch;
+                        std::shared_ptr<TreeNode> root;
+                        std::vector<std::shared_ptr<TreeNode>> nodeList;
 
-    private:
-        int branch;
-        std::shared_ptr<TreeNode> root;
-        std::vector<std::shared_ptr<TreeNode>> nodeList;
-        void buildCompleteTree(std::vector<std::shared_ptr<NodeMetadata>> nodeList);
-    };
-
+                        void buildCompleteTree(std::vector<std::shared_ptr<Ripple::Common::Entity::NodeMetadata>> nodeList);
+                    };
+                }
+            }
+        }
+    }
 } // Ripple
 
 #endif //LIBRIPPLE_COMPLETETREE_H

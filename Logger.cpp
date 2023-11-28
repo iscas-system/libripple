@@ -22,40 +22,41 @@
 #define COLOR_YELLOW "\033[1;33m"
 
 namespace Ripple {
+    namespace Common {
+        bool Logger::Enable = true;
 
-    bool Logger::Enable = true;
+        int Logger::LogLevel = LOG_LEVEL_INFO;
 
-    int Logger::LogLevel = LOG_LEVEL_INFO;
+        Logger::Logger() {
 
-    Logger::Logger() {
-
-    }
-
-    Logger::~Logger() {
-
-    }
-
-    void Logger::Info(const char *source, const char *format, ...) {
-        if (Logger::Enable && Logger::LogLevel <= LOG_LEVEL_INFO) {
-            printf(COLOR_YELLOW "[%s] " COLOR_NONE, source);
-            va_list arguments;
-            va_start(arguments, format);
-            vprintf(format, arguments);
-            va_end(arguments);
-            printf("\n");
         }
-    }
 
-    void Logger::Error(int errorNumber, const char *source, const char *format, ...) {
-        if (Logger::Enable && Logger::LogLevel <= LOG_LEVEL_ERROR) {
-            printf(COLOR_YELLOW "[%s] " COLOR_NONE, source);
-            printf(COLOR_BOLD_RED);
-            va_list arguments;
-            va_start(arguments, format);
-            vprintf(format, arguments);
-            va_end(arguments);
-            printf(" (%s)\n", strerror(errorNumber));
-            printf(COLOR_NONE);
+        Logger::~Logger() {
+
+        }
+
+        void Logger::Info(const char *source, const char *format, ...) {
+            if (Logger::Enable && Logger::LogLevel <= LOG_LEVEL_INFO) {
+                printf(COLOR_YELLOW "[%s] " COLOR_NONE, source);
+                va_list arguments;
+                va_start(arguments, format);
+                vprintf(format, arguments);
+                va_end(arguments);
+                printf("\n");
+            }
+        }
+
+        void Logger::Error(int errorNumber, const char *source, const char *format, ...) {
+            if (Logger::Enable && Logger::LogLevel <= LOG_LEVEL_ERROR) {
+                printf(COLOR_YELLOW "[%s] " COLOR_NONE, source);
+                printf(COLOR_BOLD_RED);
+                va_list arguments;
+                va_start(arguments, format);
+                vprintf(format, arguments);
+                va_end(arguments);
+                printf(" (%s)\n", strerror(errorNumber));
+                printf(COLOR_NONE);
+            }
         }
     }
 } // Ripple

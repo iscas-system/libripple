@@ -12,68 +12,79 @@
 #include "CompleteTree.h"
 
 namespace Ripple {
-    CompleteTree::CompleteTree(int branch, std::vector<std::shared_ptr<NodeMetadata>> nodeList)
-            : branch(branch),
-              nodeList(std::vector<std::shared_ptr<TreeNode>>()) {
-        this->buildCompleteTree(nodeList);
-    }
+    namespace Server {
+        namespace Core {
+            namespace Overlay {
+                namespace Tree {
+                    CompleteTree::CompleteTree(int
+                                               branch,
+                                               std::vector<std::shared_ptr<Ripple::Common::Entity::NodeMetadata>>
+                                               nodeList)
+                            : branch(branch),
+                              nodeList(std::vector<std::shared_ptr<TreeNode>>()) {
+                        this->buildCompleteTree(nodeList);
+                    }
 
-    CompleteTree::~CompleteTree() {
+                    CompleteTree::~CompleteTree() {
 
-    }
+                    }
 
-    const int CompleteTree::GetBranch() const {
-        return this->branch;
-    }
+                    const int CompleteTree::GetBranch() const {
+                        return this->branch;
+                    }
 
-    void CompleteTree::SetBranch(int branch) {
-        this->branch = branch;
-    }
+                    void CompleteTree::SetBranch(int branch) {
+                        this->branch = branch;
+                    }
 
-    const std::shared_ptr<TreeNode> &CompleteTree::GetRoot() const {
-        return this->root;
-    }
+                    const std::shared_ptr<TreeNode> &CompleteTree::GetRoot() const {
+                        return this->root;
+                    }
 
-    void CompleteTree::SetRoot(std::shared_ptr<TreeNode> root) {
-        this->root = std::move(root);
-    }
+                    void CompleteTree::SetRoot(std::shared_ptr<TreeNode> root) {
+                        this->root = std::move(root);
+                    }
 
-    const std::vector<std::shared_ptr<TreeNode>> &CompleteTree::GetNodeList() const {
-        return this->nodeList;
-    }
+                    const std::vector<std::shared_ptr<TreeNode>> &CompleteTree::GetNodeList() const {
+                        return this->nodeList;
+                    }
 
-    void CompleteTree::SetNodeList(std::vector<std::shared_ptr<TreeNode>> nodeList) {
-        this->nodeList = std::move(nodeList);
-    }
+                    void CompleteTree::SetNodeList(std::vector<std::shared_ptr<TreeNode>> nodeList) {
+                        this->nodeList = std::move(nodeList);
+                    }
 
-    void CompleteTree::buildCompleteTree(std::vector<std::shared_ptr<NodeMetadata>> nodeList) {
-        for (auto it = nodeList.begin(); it != nodeList.end(); it++) {
-            this->nodeList.push_back(std::make_shared<TreeNode>(*it));
-        }
+                    void CompleteTree::buildCompleteTree(
+                            std::vector<std::shared_ptr<Ripple::Common::Entity::NodeMetadata>> nodeList) {
+                        for (auto it = nodeList.begin(); it != nodeList.end(); it++) {
+                            this->nodeList.push_back(std::make_shared<TreeNode>(*it));
+                        }
 
-        std::queue<std::shared_ptr<TreeNode>> nodes;
-        std::queue<std::shared_ptr<TreeNode>> toAssign;
-        for (auto it = this->GetNodeList().begin(); it != this->GetNodeList().end(); it++) {
-            nodes.push(*it);
-            toAssign.push(*it);
-        }
+                        std::queue<std::shared_ptr<TreeNode>> nodes;
+                        std::queue<std::shared_ptr<TreeNode>> toAssign;
+                        for (auto it = this->GetNodeList().begin(); it != this->GetNodeList().end(); it++) {
+                            nodes.push(*it);
+                            toAssign.push(*it);
+                        }
 
-        this->SetRoot(toAssign.front());
-        toAssign.pop();
-        for (auto it = this->GetNodeList().begin(); it != this->GetNodeList().end(); it++) {
-            if (!nodes.empty()) {
-                auto treeNode = nodes.front();
-                nodes.pop();
-                int i = 0;
-                for (i = 0; i < this->GetBranch(); i++) {
-                    if (!toAssign.empty()) {
-                        auto element = toAssign.front();
+                        this->SetRoot(toAssign.front());
                         toAssign.pop();
-                        treeNode->GetChildren().push_back(element);
+                        for (auto it = this->GetNodeList().begin(); it != this->GetNodeList().end(); it++) {
+                            if (!nodes.empty()) {
+                                auto treeNode = nodes.front();
+                                nodes.pop();
+                                int i = 0;
+                                for (i = 0; i < this->GetBranch(); i++) {
+                                    if (!toAssign.empty()) {
+                                        auto element = toAssign.front();
+                                        toAssign.pop();
+                                        treeNode->GetChildren().push_back(element);
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
         }
     }
-
 } // Ripple

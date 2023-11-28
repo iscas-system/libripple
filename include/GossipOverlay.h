@@ -13,28 +13,36 @@
 
 #include "Overlay.h"
 
+// TODO: Implement this
 namespace Ripple {
+    namespace Server {
+        namespace Core {
+            namespace Overlay {
+                class GossipOverlay final : public Overlay {
+                public:
+                    GossipOverlay();
 
-    class GossipOverlay final: public Overlay {
-    public:
-        GossipOverlay();
+                    virtual ~GossipOverlay() override;
 
-        virtual ~GossipOverlay() override;
+                    GossipOverlay(const GossipOverlay &) = delete;
 
-        GossipOverlay(const GossipOverlay &) = delete;
+                    GossipOverlay &operator=(const GossipOverlay &) = delete;
 
-        GossipOverlay &operator=(const GossipOverlay &) = delete;
+                    void
+                    BuildOverlay(std::vector<std::shared_ptr<Ripple::Common::Entity::NodeMetadata>> nodeList) override;
 
-        void BuildOverlay(std::vector<std::shared_ptr<NodeMetadata>> nodeList) override;
+                    std::vector<std::shared_ptr<Ripple::Common::Entity::NodeMetadata>>
+                    CalculateNodesToSync(std::shared_ptr<Ripple::Common::Entity::AbstractMessage> message,
+                                         std::shared_ptr<Ripple::Common::Entity::NodeMetadata> source,
+                                         std::shared_ptr<Ripple::Common::Entity::NodeMetadata> current) override;
 
-        std::vector<std::shared_ptr<NodeMetadata>>
-        CalculateNodesToSync(std::shared_ptr<AbstractMessage> message, std::shared_ptr<NodeMetadata> source,
-                             std::shared_ptr<NodeMetadata> current) override;
-
-        std::vector<std::shared_ptr<NodeMetadata>>
-        CalculateNodesToCollectAck(std::shared_ptr<AbstractMessage> message) override;
-    };
-
+                    std::vector<std::shared_ptr<Ripple::Common::Entity::NodeMetadata>>
+                    CalculateNodesToCollectAck(
+                            std::shared_ptr<Ripple::Common::Entity::AbstractMessage> message) override;
+                };
+            }
+        }
+    }
 } // Ripple
 
 #endif //LIBRIPPLE_GOSSIPOVERLAY_H
