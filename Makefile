@@ -43,7 +43,7 @@ TARGETS = release/libripple.so release/StaticTest release/DynamicTest release/Go
 
 # Objects
 LIBRIPPLE_OBJECTS += output/NodeMetadata.o
-LIBRIPPLE_OBJECTS += output/AbstractMessage.o
+LIBRIPPLE_OBJECTS += output/AbstractMessage.o output/UpdateMessage.o output/IncrementalUpdateMessage.o output/DeleteMessage.o
 LIBRIPPLE_OBJECTS += output/Overlay.o output/StarOverlay.o output/HashingBasedOverlay.o output/GossipOverlay.o output/ExpanderOverlay.o
 LIBRIPPLE_OBJECTS += output/TreeOverlay.o output/TreeNode.o output/CompleteTree.o
 LIBRIPPLE_OBJECTS += output/Logger.o
@@ -97,6 +97,15 @@ output/NodeMetadata.o: NodeMetadata.cpp include/NodeMetadata.h
 	$(RIPPLE_CC) $(CPPFLAGS) $(INCLUDE_FLAGS) -o $@ $<
 
 output/AbstractMessage.o: AbstractMessage.cpp include/AbstractMessage.h
+	$(RIPPLE_CC) $(CPPFLAGS) $(INCLUDE_FLAGS) -o $@ $<
+
+output/UpdateMessage.o: UpdateMessage.cpp include/UpdateMessage.h include/Constants.h
+	$(RIPPLE_CC) $(CPPFLAGS) $(INCLUDE_FLAGS) -o $@ $<
+
+output/IncrementalUpdateMessage.o: IncrementalUpdateMessage.cpp include/IncrementalUpdateMessage.h include/Constants.h
+	$(RIPPLE_CC) $(CPPFLAGS) $(INCLUDE_FLAGS) -o $@ $<
+
+output/DeleteMessage.o: DeleteMessage.cpp include/DeleteMessage.h include/Constants.h
 	$(RIPPLE_CC) $(CPPFLAGS) $(INCLUDE_FLAGS) -o $@ $<
 
 output/Overlay.o: Overlay.cpp include/Overlay.h

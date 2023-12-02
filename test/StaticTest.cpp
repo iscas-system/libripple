@@ -9,12 +9,18 @@
 // See the Mulan PSL v2 for more details.
 
 #include <memory>
+#include <iostream>
+#include <ctime>
 
 #include "../include/Logger.h"
 #include "../include/NodeMetadata.h"
 #include "../include/StarOverlay.h"
 #include "../include/CompleteTree.h"
 #include "../include/TreeOverlay.h"
+#include "../include/DeleteMessage.h"
+#include "../include/UpdateMessage.h"
+#include "../include/IncrementalUpdateMessage.h"
+#include "../include/Constants.h"
 
 void AssertEquals(int expected, int actual) {
     if (expected != actual) {
@@ -89,8 +95,76 @@ void TestTreeOverlay() {
     AssertEquals(0, list.size());
 }
 
+void TestGenerateDeleteMessage() {
+    Ripple::Common::Entity::DeleteMessage deleteMessage("testApp", "testKey", time(nullptr), 1);
+    char uuidStr[37];
+    uuid_unparse(deleteMessage.GetUuid(), uuidStr);
+    std::cout << uuidStr << "," << deleteMessage.GetType() << "," << deleteMessage.GetApplicationName() << ","
+              << deleteMessage.GetKey() << "," << deleteMessage.GetLastUpdate() << ","
+              << deleteMessage.GetLastUpdateServerId() << std::endl;
+
+    uuid_t uuid2;
+    uuid_generate(uuid2);
+    Ripple::Common::Entity::DeleteMessage deleteMessage2(uuid2, "testApp2", "testKey2", time(nullptr), 2);
+    uuid_unparse(deleteMessage2.GetUuid(), uuidStr);
+    std::cout << uuidStr << "," << deleteMessage2.GetType() << "," << deleteMessage2.GetApplicationName() << ","
+              << deleteMessage2.GetKey() << "," << deleteMessage2.GetLastUpdate() << ","
+              << deleteMessage2.GetLastUpdateServerId() << std::endl;
+}
+
+void TestGenerateUpdateMessage() {
+    Ripple::Common::Entity::UpdateMessage updateMessage("testApp", "testKey", "testValue", time(nullptr), 1);
+    char uuidStr[37];
+    uuid_unparse(updateMessage.GetUuid(), uuidStr);
+    std::cout << uuidStr << "," << updateMessage.GetType() << "," << updateMessage.GetApplicationName() << ","
+              << updateMessage.GetKey() << "," << updateMessage.GetValue() << "," << updateMessage.GetLastUpdate()
+              << "," << updateMessage.GetLastUpdateServerId() << std::endl;
+
+    uuid_t uuid2;
+    uuid_generate(uuid2);
+    Ripple::Common::Entity::UpdateMessage updateMessage2(uuid2, "testApp2", "testKey2", "testValue2", time(nullptr), 2);
+    uuid_unparse(updateMessage2.GetUuid(), uuidStr);
+    std::cout << uuidStr << "," << updateMessage2.GetType() << "," << updateMessage2.GetApplicationName() << ","
+              << updateMessage2.GetKey() << "," << updateMessage2.GetValue() << "," << updateMessage2.GetLastUpdate()
+              << "," << updateMessage2.GetLastUpdateServerId() << std::endl;
+}
+
+void TestGenerateIncrementalUpdateMessage() {
+    uuid_t baseMessageUuid;
+    uuid_generate(baseMessageUuid);
+    Ripple::Common::Entity::IncrementalUpdateMessage incrementalUpdateMessage("testApp", "testKey", baseMessageUuid,
+                                                                              Ripple::Common::Entity::Constants::ATOMIC_OPERATION_ADD_ENTRY,
+                                                                              "testValue",
+                                                                              time(nullptr), 1);
+    char uuidStr[37];
+    uuid_unparse(incrementalUpdateMessage.GetUuid(), uuidStr);
+    std::cout << uuidStr << "," << incrementalUpdateMessage.GetType() << ","
+              << incrementalUpdateMessage.GetApplicationName() << ","
+              << incrementalUpdateMessage.GetKey() << "," << incrementalUpdateMessage.GetValue() << ","
+              << incrementalUpdateMessage.GetAtomicOperation() << "," << incrementalUpdateMessage.GetLastUpdate()
+              << "," << incrementalUpdateMessage.GetLastUpdateServerId() << std::endl;
+
+    uuid_t uuid2;
+    uuid_generate(uuid2);
+    uuid_generate(baseMessageUuid);
+    Ripple::Common::Entity::IncrementalUpdateMessage incrementalUpdateMessage2(uuid2, "testApp2", "testKey2",
+                                                                               baseMessageUuid,
+                                                                               Ripple::Common::Entity::Constants::ATOMIC_OPERATION_REMOVE_ENTRY,
+                                                                               "testValue2",
+                                                                               time(nullptr), 2);
+    uuid_unparse(incrementalUpdateMessage2.GetUuid(), uuidStr);
+    std::cout << uuidStr << "," << incrementalUpdateMessage2.GetType() << ","
+              << incrementalUpdateMessage2.GetApplicationName() << ","
+              << incrementalUpdateMessage2.GetKey() << "," << incrementalUpdateMessage2.GetValue() << ","
+              << incrementalUpdateMessage.GetAtomicOperation() << "," << incrementalUpdateMessage2.GetLastUpdate()
+              << "," << incrementalUpdateMessage2.GetLastUpdateServerId() << std::endl;
+}
+
 
 int main(int argc, char *argv[]) {
+    TestGenerateDeleteMessage();
+    TestGenerateUpdateMessage();
+    TestGenerateIncrementalUpdateMessage();
     TestStarOverlay();
     TestCompleteTree();
     TestTreeOverlay();

@@ -11,7 +11,10 @@
 #ifndef LIBRIPPLE_ABSTRACTMESSAGE_H
 #define LIBRIPPLE_ABSTRACTMESSAGE_H
 
-// TODO: Implement this
+#include <uuid/uuid.h>
+#include <ctime>
+#include <string>
+
 namespace Ripple {
     namespace Common {
         namespace Entity {
@@ -20,11 +23,46 @@ namespace Ripple {
             public:
                 AbstractMessage();
 
+                AbstractMessage(uuid_t uuid, std::string type, std::string applicationName, std::string key,
+                                time_t lastUpdate, int lastUpdateServerId);
+                
                 virtual ~AbstractMessage();
 
                 AbstractMessage(const AbstractMessage &) = delete;
 
                 AbstractMessage &operator=(const AbstractMessage &) = delete;
+
+                const uuid_t &GetUuid() const;
+
+                void SetUuid(uuid_t uuid);
+
+                const std::string &GetType() const;
+
+                void SetType(std::string type);
+
+                const std::string &GetApplicationName() const;
+
+                void SetApplicationName(std::string applicationName);
+
+                const std::string &GetKey() const;
+
+                void SetKey(std::string key);
+
+                time_t GetLastUpdate() const;
+
+                void SetLastUpdate(time_t lastUpdate);
+
+                int GetLastUpdateServerId() const;
+
+                void SetLastUpdateServerId(int lastUpdateServerId);
+
+            private:
+                uuid_t uuid;
+                std::string type;
+                std::string applicationName;
+                std::string key;
+                time_t lastUpdate;
+                int lastUpdateServerId;
             };
         }
     }
