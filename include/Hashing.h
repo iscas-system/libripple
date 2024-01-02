@@ -11,7 +11,10 @@
 #ifndef LIBRIPPLE_HASHING_H
 #define LIBRIPPLE_HASHING_H
 
-// TODO: Implement this
+#include <memory>
+#include <vector>
+#include "NodeMetadata.h"
+
 namespace Ripple {
     namespace Common {
         namespace Hashing {
@@ -24,6 +27,10 @@ namespace Ripple {
                 Hashing(const Hashing &) = delete;
 
                 Hashing &operator=(const Hashing &) = delete;
+
+                virtual std::vector<std::shared_ptr<Ripple::Common::Entity::NodeMetadata>>
+                CalculateNodeList(std::string applicationName, std::string key,
+                                  std::vector<std::shared_ptr<Ripple::Common::Entity::NodeMetadata>> nodeList) = 0;
             };
         }
     }

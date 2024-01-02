@@ -10,7 +10,6 @@
 
 #include "DefaultHashing.h"
 
-// TODO: Implement this
 namespace Ripple {
     namespace Common {
         namespace Hashing {
@@ -20,6 +19,13 @@ namespace Ripple {
 
             DefaultHashing::~DefaultHashing() {
 
+            }
+
+            std::vector<std::shared_ptr<Ripple::Common::Entity::NodeMetadata>>
+            DefaultHashing::CalculateNodeList(std::string applicationName, std::string key,
+                                              std::vector<std::shared_ptr<Ripple::Common::Entity::NodeMetadata>> nodeList) {
+                // returns the node list
+                return std::vector<std::shared_ptr<Ripple::Common::Entity::NodeMetadata>>(nodeList);
             }
         }
     }

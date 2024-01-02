@@ -22,7 +22,7 @@ namespace Ripple {
                 public:
                     GossipOverlay();
 
-                    virtual ~GossipOverlay() override;
+                    ~GossipOverlay() override;
 
                     GossipOverlay(const GossipOverlay &) = delete;
 

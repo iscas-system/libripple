@@ -12,18 +12,24 @@
 #define LIBRIPPLE_MODHASHING_H
 
 // TODO: Implement this
+#include "Hashing.h"
+
 namespace Ripple {
     namespace Common {
         namespace Hashing {
-            class ModHashing {
+            class ModHashing final : public Hashing {
             public:
                 ModHashing();
 
-                virtual ~ModHashing();
+                ~ModHashing() override;
 
                 ModHashing(const ModHashing &) = delete;
 
                 ModHashing &operator=(const ModHashing &) = delete;
+
+                virtual std::vector<std::shared_ptr<Ripple::Common::Entity::NodeMetadata>>
+                CalculateNodeList(std::string applicationName, std::string key,
+                                  std::vector<std::shared_ptr<Ripple::Common::Entity::NodeMetadata>> nodeList) override;
             };
         }
     }

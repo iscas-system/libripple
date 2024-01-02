@@ -21,6 +21,12 @@ namespace Ripple {
             ModHashing::~ModHashing() {
 
             }
+
+            std::vector<std::shared_ptr<Ripple::Common::Entity::NodeMetadata>>
+            ModHashing::CalculateNodeList(std::string applicationName, std::string key,
+                                          std::vector<std::shared_ptr<Ripple::Common::Entity::NodeMetadata>> nodeList) {
+                return std::vector<std::shared_ptr<Ripple::Common::Entity::NodeMetadata>>();
+            }
         }
     }
 }

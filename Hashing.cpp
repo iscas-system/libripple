@@ -10,7 +10,6 @@
 
 #include "Hashing.h"
 
-// TODO: Implement this
 namespace Ripple {
     namespace Common {
         namespace Hashing {

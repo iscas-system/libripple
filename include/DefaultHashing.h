@@ -11,19 +11,24 @@
 #ifndef LIBRIPPLE_DEFAULTHASHING_H
 #define LIBRIPPLE_DEFAULTHASHING_H
 
-// TODO: Implement this
+#include "Hashing.h"
+
 namespace Ripple {
     namespace Common {
         namespace Hashing {
-            class DefaultHashing {
+            class DefaultHashing final:public Hashing {
             public:
                 DefaultHashing();
 
-                virtual ~DefaultHashing();
+                ~DefaultHashing() override;
 
                 DefaultHashing(const DefaultHashing &) = delete;
 
                 DefaultHashing &operator=(const DefaultHashing &) = delete;
+
+                std::vector<std::shared_ptr<Ripple::Common::Entity::NodeMetadata>>
+                CalculateNodeList(std::string applicationName, std::string key,
+                                  std::vector<std::shared_ptr<Ripple::Common::Entity::NodeMetadata>> nodeList) override;
             };
         }
     }

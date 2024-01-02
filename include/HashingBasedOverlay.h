@@ -24,7 +24,7 @@ namespace Ripple {
                     public:
                         HashingBasedOverlay();
 
-                        ~HashingBasedOverlay() final;
+                        ~HashingBasedOverlay() override;
 
                         HashingBasedOverlay(const HashingBasedOverlay &) = delete;
 
