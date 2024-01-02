@@ -42,7 +42,7 @@ DYNAMIC_TEST_OBJECTS = output/DynamicTest.o
 TARGETS = release/libripple.so release/StaticTest release/DynamicTest release/GoTest
 
 # Objects
-LIBRIPPLE_OBJECTS += output/NodeMetadata.o
+LIBRIPPLE_OBJECTS += output/NodeMetadata.o output/Ack.o output/ClientMetadata.o output/Item.o output/SystemInfo.o
 LIBRIPPLE_OBJECTS += output/AbstractMessage.o output/UpdateMessage.o output/IncrementalUpdateMessage.o output/DeleteMessage.o
 LIBRIPPLE_OBJECTS += output/Overlay.o output/StarOverlay.o output/HashingBasedOverlay.o output/GossipOverlay.o output/ExpanderOverlay.o
 LIBRIPPLE_OBJECTS += output/TreeOverlay.o output/TreeNode.o output/CompleteTree.o
@@ -94,6 +94,18 @@ release/GoTest: test/GoTest.go install
 	$(QUIET_CC)go build -o $@ $<
 
 output/NodeMetadata.o: NodeMetadata.cpp include/NodeMetadata.h
+	$(RIPPLE_CC) $(CPPFLAGS) $(INCLUDE_FLAGS) -o $@ $<
+
+output/Ack.o: Ack.cpp include/Ack.h
+	$(RIPPLE_CC) $(CPPFLAGS) $(INCLUDE_FLAGS) -o $@ $<
+
+output/ClientMetadata.o: ClientMetadata.cpp include/ClientMetadata.h
+	$(RIPPLE_CC) $(CPPFLAGS) $(INCLUDE_FLAGS) -o $@ $<
+
+output/Item.o: Item.cpp include/Item.h
+	$(RIPPLE_CC) $(CPPFLAGS) $(INCLUDE_FLAGS) -o $@ $<
+
+output/SystemInfo.o: SystemInfo.cpp include/SystemInfo.h
 	$(RIPPLE_CC) $(CPPFLAGS) $(INCLUDE_FLAGS) -o $@ $<
 
 output/AbstractMessage.o: AbstractMessage.cpp include/AbstractMessage.h
