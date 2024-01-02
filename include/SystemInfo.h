@@ -11,6 +11,7 @@
 #ifndef LIBRIPPLE_SYSTEMINFO_H
 #define LIBRIPPLE_SYSTEMINFO_H
 
+// TODO: Implement this
 namespace Ripple {
     namespace Common {
         namespace Entity {

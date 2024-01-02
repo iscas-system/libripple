@@ -1,5 +1,3 @@
-// Copyright (c) 2023 Institute of Software, Chinese Academy of Sciences
-// libripple is licensed under Mulan PSL v2.
 // You can use this software according to the terms and conditions of the Mulan PSL v2.
 // You may obtain a copy of Mulan PSL v2 at:
 //          http://license.coscl.org.cn/MulanPSL2
@@ -8,25 +6,24 @@
 // MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
 // See the Mulan PSL v2 for more details.
 
-#ifndef LIBRIPPLE_ACK_H
-#define LIBRIPPLE_ACK_H
+#ifndef LIBRIPPLE_STORAGE_H
+#define LIBRIPPLE_STORAGE_H
 
 // TODO: Implement this
 namespace Ripple {
     namespace Common {
-        namespace Entity {
-            class Ack {
-            public:
-                Ack();
+        namespace Storage {
+            class Storage {
+                Storage();
 
-                virtual ~Ack();
+                virtual ~Storage();
 
-                Ack(const Ack &) = delete;
+                Storage(const Storage &) = delete;
 
-                Ack &operator=(const Ack &) = delete;
+                Storage &operator=(const Storage &) = delete;
             };
-        } // Entity
-    } // Common
-} // Ripple
+        }
+    }
+}
 
-#endif //LIBRIPPLE_ACK_H
+#endif //LIBRIPPLE_STORAGE_H

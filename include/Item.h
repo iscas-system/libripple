@@ -11,6 +11,7 @@
 #ifndef LIBRIPPLE_ITEM_H
 #define LIBRIPPLE_ITEM_H
 
+// TODO: Implement this
 namespace Ripple {
     namespace Common {
         namespace Entity {

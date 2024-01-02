@@ -8,25 +8,25 @@
 // MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
 // See the Mulan PSL v2 for more details.
 
-#ifndef LIBRIPPLE_ACK_H
-#define LIBRIPPLE_ACK_H
+#ifndef LIBRIPPLE_ACKSERVICE_H
+#define LIBRIPPLE_ACKSERVICE_H
 
 // TODO: Implement this
 namespace Ripple {
     namespace Common {
-        namespace Entity {
-            class Ack {
+        namespace Storage {
+            class AckService {
             public:
-                Ack();
+                AckService();
 
-                virtual ~Ack();
+                virtual ~AckService();
 
-                Ack(const Ack &) = delete;
+                AckService(const AckService &) = delete;
 
-                Ack &operator=(const Ack &) = delete;
+                AckService &operator=(const AckService &) = delete;
             };
-        } // Entity
-    } // Common
-} // Ripple
+        }
+    }
+}
 
-#endif //LIBRIPPLE_ACK_H
+#endif //LIBRIPPLE_ACKSERVICE_H

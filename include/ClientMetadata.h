@@ -11,6 +11,7 @@
 #ifndef LIBRIPPLE_CLIENTMETADATA_H
 #define LIBRIPPLE_CLIENTMETADATA_H
 
+// TODO: Implement this
 namespace Ripple {
     namespace Common {
         namespace Entity {

@@ -46,6 +46,7 @@ LIBRIPPLE_OBJECTS += output/NodeMetadata.o output/Ack.o output/ClientMetadata.o 
 LIBRIPPLE_OBJECTS += output/AbstractMessage.o output/UpdateMessage.o output/IncrementalUpdateMessage.o output/DeleteMessage.o
 LIBRIPPLE_OBJECTS += output/Overlay.o output/StarOverlay.o output/HashingBasedOverlay.o output/GossipOverlay.o output/ExpanderOverlay.o
 LIBRIPPLE_OBJECTS += output/TreeOverlay.o output/TreeNode.o output/CompleteTree.o
+LIBRIPPLE_OBJECTS += output/AckService.o output/ItemService.o output/MessageService.o output/Storage.o
 LIBRIPPLE_OBJECTS += output/Logger.o
 LIBRIPPLE_OBJECTS += output/libripple.o
 
@@ -142,6 +143,18 @@ output/GossipOverlay.o: GossipOverlay.cpp include/GossipOverlay.h
 	$(RIPPLE_CC) $(CPPFLAGS) $(INCLUDE_FLAGS) -o $@ $<
 
 output/ExpanderOverlay.o: ExpanderOverlay.cpp include/ExpanderOverlay.h
+	$(RIPPLE_CC) $(CPPFLAGS) $(INCLUDE_FLAGS) -o $@ $<
+
+output/AckService.o: AckService.cpp include/AckService.h
+	$(RIPPLE_CC) $(CPPFLAGS) $(INCLUDE_FLAGS) -o $@ $<
+
+output/ItemService.o: ItemService.cpp include/ItemService.h
+	$(RIPPLE_CC) $(CPPFLAGS) $(INCLUDE_FLAGS) -o $@ $<
+
+output/MessageService.o: MessageService.cpp include/MessageService.h
+	$(RIPPLE_CC) $(CPPFLAGS) $(INCLUDE_FLAGS) -o $@ $<
+
+output/Storage.o: Storage.cpp include/Storage.h
 	$(RIPPLE_CC) $(CPPFLAGS) $(INCLUDE_FLAGS) -o $@ $<
 
 output/Logger.o: Logger.cpp include/Logger.h

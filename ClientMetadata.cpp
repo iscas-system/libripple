@@ -10,6 +10,7 @@
 
 #include "ClientMetadata.h"
 
+// TODO: Implement this
 namespace Ripple {
     namespace Common {
         namespace Entity {
