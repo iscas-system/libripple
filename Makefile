@@ -47,6 +47,7 @@ LIBRIPPLE_OBJECTS += output/AbstractMessage.o output/UpdateMessage.o output/Incr
 LIBRIPPLE_OBJECTS += output/Overlay.o output/StarOverlay.o output/HashingBasedOverlay.o output/GossipOverlay.o output/ExpanderOverlay.o
 LIBRIPPLE_OBJECTS += output/TreeOverlay.o output/TreeNode.o output/CompleteTree.o
 LIBRIPPLE_OBJECTS += output/AckService.o output/ItemService.o output/MessageService.o output/Storage.o
+LIBRIPPLE_OBJECTS += output/Hashing.o output/DefaultHashing.o output/ModHashing.o
 LIBRIPPLE_OBJECTS += output/Logger.o
 LIBRIPPLE_OBJECTS += output/libripple.o
 
@@ -155,6 +156,15 @@ output/MessageService.o: MessageService.cpp include/MessageService.h
 	$(RIPPLE_CC) $(CPPFLAGS) $(INCLUDE_FLAGS) -o $@ $<
 
 output/Storage.o: Storage.cpp include/Storage.h
+	$(RIPPLE_CC) $(CPPFLAGS) $(INCLUDE_FLAGS) -o $@ $<
+
+output/Hashing.o: Hashing.cpp include/Hashing.h
+	$(RIPPLE_CC) $(CPPFLAGS) $(INCLUDE_FLAGS) -o $@ $<
+
+output/DefaultHashing.o: DefaultHashing.cpp include/DefaultHashing.h
+	$(RIPPLE_CC) $(CPPFLAGS) $(INCLUDE_FLAGS) -o $@ $<
+
+output/ModHashing.o: ModHashing.cpp include/ModHashing.h
 	$(RIPPLE_CC) $(CPPFLAGS) $(INCLUDE_FLAGS) -o $@ $<
 
 output/Logger.o: Logger.cpp include/Logger.h
