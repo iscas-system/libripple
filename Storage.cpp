@@ -18,6 +18,9 @@ namespace Ripple {
         namespace Storage {
             Storage::Storage(std::string fileName) {
                 this->SetFileName(fileName);
+                this->ackService.reset(new AckService(this));
+                this->messageService.reset(new MessageService(this));
+                this->itemService.reset(new ItemService(this));
                 this->Initialize();
             }
 
@@ -28,6 +31,21 @@ namespace Ripple {
                 }
             }
 
+            const sqlite3 *Storage::GetDataBase() const {
+                return this->database;
+            }
+
+            const ItemService *Storage::GetItemService() const {
+                return this->itemService.get();
+            }
+
+            const MessageService *Storage::GetMessageService() const {
+                return this->messageService.get();
+            }
+
+            const AckService *Storage::GetAckService() const {
+                return this->ackService.get();
+            }
 
             const std::string &Storage::GetFileName() const {
                 return this->fileName;

@@ -12,6 +12,7 @@
 #include <string>
 #include <sqlite3.h>
 #include <memory>
+
 #include "ItemService.h"
 #include "MessageService.h"
 #include "AckService.h"
@@ -20,9 +21,15 @@
 namespace Ripple {
     namespace Common {
         namespace Storage {
+            class ItemService;
+
+            class MessageService;
+
+            class AckService;
+
             class Storage {
             public:
-                Storage(std::string fileName);
+                explicit Storage(std::string fileName);
 
                 virtual ~Storage();
 
@@ -31,6 +38,14 @@ namespace Ripple {
                 Storage &operator=(const Storage &) = delete;
 
                 const std::string &GetFileName() const;
+
+                const sqlite3 *GetDataBase() const;
+
+                const ItemService *GetItemService() const;
+
+                const MessageService *GetMessageService() const;
+
+                const AckService *GetAckService() const;
 
             private:
                 std::string fileName;
@@ -43,7 +58,7 @@ namespace Ripple {
 
                 void InitializeTables();
 
-                void DoExecuteStatement(const char * statement);
+                void DoExecuteStatement(const char *statement);
 
                 void SetFileName(std::string fileName);
 

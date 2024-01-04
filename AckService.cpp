@@ -8,19 +8,22 @@
 // MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
 // See the Mulan PSL v2 for more details.
 
+#include <memory>
 #include "AckService.h"
 
 // TODO: Implement this
 namespace Ripple {
     namespace Common {
         namespace Storage {
-            AckService::AckService() {
-
+            AckService::AckService(Storage *storage) {
+                this->storage = storage;
             }
 
             AckService::~AckService() {
 
             }
+
+
         }
     }
 }

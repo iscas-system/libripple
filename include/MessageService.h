@@ -9,19 +9,27 @@
 #ifndef LIBRIPPLE_MESSAGESERVICE_H
 #define LIBRIPPLE_MESSAGESERVICE_H
 
+#include <memory>
+#include "Storage.h"
+
 // TODO: Implement this
 namespace Ripple {
     namespace Common {
         namespace Storage {
+            class Storage;
+
             class MessageService {
             public:
-                MessageService();
+                explicit MessageService(Storage *storage);
 
                 virtual ~MessageService();
 
                 MessageService(const MessageService &) = delete;
 
                 MessageService &operator=(const MessageService &) = delete;
+
+            private:
+                Storage *storage;
             };
         }
     }

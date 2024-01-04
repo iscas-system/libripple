@@ -9,13 +9,14 @@
 // See the Mulan PSL v2 for more details.
 
 #include "MessageService.h"
+#include <memory>
 
 // TODO: Implement this
 namespace Ripple {
     namespace Common {
         namespace Storage {
-            MessageService::MessageService() {
-
+            MessageService::MessageService(Storage *storage) {
+                this->storage = storage;
             }
 
             MessageService::~MessageService() {

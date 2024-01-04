@@ -9,19 +9,27 @@
 #ifndef LIBRIPPLE_ITEMSERVICE_H
 #define LIBRIPPLE_ITEMSERVICE_H
 
+#include <memory>
+#include "Storage.h"
+
 // TODO: Implement this
 namespace Ripple {
     namespace Common {
         namespace Storage {
+            class Storage;
+
             class ItemService {
             public:
-                ItemService();
+                explicit ItemService(Storage *storage);
 
                 virtual ~ItemService();
 
                 ItemService(const ItemService &) = delete;
 
                 ItemService &operator=(const ItemService &) = delete;
+
+            private:
+                Storage *storage;
             };
         }
     }

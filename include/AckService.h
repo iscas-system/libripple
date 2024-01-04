@@ -12,18 +12,26 @@
 #define LIBRIPPLE_ACKSERVICE_H
 
 // TODO: Implement this
+#include <memory>
+#include "Storage.h"
+
 namespace Ripple {
     namespace Common {
         namespace Storage {
+            class Storage;
+
             class AckService {
             public:
-                AckService();
+                explicit AckService(Storage *storage);
 
                 virtual ~AckService();
 
                 AckService(const AckService &) = delete;
 
                 AckService &operator=(const AckService &) = delete;
+
+            private:
+                Storage *storage;
             };
         }
     }

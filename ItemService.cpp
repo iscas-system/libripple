@@ -9,13 +9,14 @@
 // See the Mulan PSL v2 for more details.
 
 #include "ItemService.h"
+#include <memory>
 
 // TODO: Implement this
 namespace Ripple {
     namespace Common {
         namespace Storage {
-            ItemService::ItemService() {
-
+            ItemService::ItemService(Storage *storage) {
+                this->storage = storage;
             }
 
             ItemService::~ItemService() {
