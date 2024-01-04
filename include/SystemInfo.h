@@ -11,7 +11,6 @@
 #ifndef LIBRIPPLE_SYSTEMINFO_H
 #define LIBRIPPLE_SYSTEMINFO_H
 
-// TODO: Implement this
 namespace Ripple {
     namespace Common {
         namespace Entity {
@@ -24,6 +23,13 @@ namespace Ripple {
                 SystemInfo(const SystemInfo &) = delete;
 
                 SystemInfo &operator=(const SystemInfo &) = delete;
+
+                double GetCpuUsage() const;
+
+                void SetCpuUsage(double cpuUsage);
+
+            private:
+                double cpuUsage;
             };
         }
     }

@@ -10,7 +10,6 @@
 
 #include "SystemInfo.h"
 
-// TODO: Implement this
 namespace Ripple {
     namespace Common {
         namespace Entity {
@@ -20,6 +19,14 @@ namespace Ripple {
 
             SystemInfo::~SystemInfo() {
 
+            }
+
+            double SystemInfo::GetCpuUsage() const {
+                return this->cpuUsage;
+            }
+
+            void SystemInfo::SetCpuUsage(double cpuUsage) {
+                this->cpuUsage = cpuUsage;
             }
         }
     }

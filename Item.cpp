@@ -10,7 +10,6 @@
 
 #include "Item.h"
 
-// TODO: Implement this
 namespace Ripple {
     namespace Common {
         namespace Entity {
@@ -18,8 +17,34 @@ namespace Ripple {
 
             }
 
+            Item::Item(std::string applicationName, std::string key) {
+                this->SetApplicationName(applicationName);
+                this->SetKey(key);
+            }
+
             Item::~Item() {
 
+            }
+
+            const std::string &Item::GetApplicationName() const {
+                return this->applicationName;
+            }
+
+            void Item::SetApplicationName(std::string applicationName) {
+                this->applicationName = std::move(applicationName);
+            }
+
+            const std::string &Item::GetKey() const {
+                return this->key;
+            }
+
+            void Item::SetKey(std::string key) {
+                this->key = std::move(key);
+            }
+
+            bool Item::operator==(const Item &item) {
+                return (this->applicationName == item.applicationName
+                        && this->key == item.key);
             }
         }
     }

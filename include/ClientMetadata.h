@@ -11,6 +11,8 @@
 #ifndef LIBRIPPLE_CLIENTMETADATA_H
 #define LIBRIPPLE_CLIENTMETADATA_H
 
+#include <string>
+
 // TODO: Implement this
 namespace Ripple {
     namespace Common {
@@ -24,6 +26,20 @@ namespace Ripple {
                 ClientMetadata(const ClientMetadata &) = delete;
 
                 ClientMetadata &operator=(const ClientMetadata &) = delete;
+
+                bool operator==(const ClientMetadata & clientMetadata);
+
+                const std::string &GetAddress() const;
+
+                void SetAddress(std::string address);
+
+                int GetPort() const;
+
+                void SetPort(int port);
+
+            private:
+                std::string address;
+                int port;
             };
         }
     }

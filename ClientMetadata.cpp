@@ -10,7 +10,6 @@
 
 #include "ClientMetadata.h"
 
-// TODO: Implement this
 namespace Ripple {
     namespace Common {
         namespace Entity {
@@ -20,6 +19,27 @@ namespace Ripple {
 
             ClientMetadata::~ClientMetadata() {
 
+            }
+
+            const std::string &ClientMetadata::GetAddress() const {
+                return this->address;
+            }
+
+            void ClientMetadata::SetAddress(std::string address) {
+                this->address = std::move(address);
+            }
+
+            int ClientMetadata::GetPort() const {
+                return this->port;
+            }
+
+            void ClientMetadata::SetPort(int port) {
+                this->port = port;
+            }
+
+            bool ClientMetadata::operator==(const ClientMetadata &clientMetadata) {
+                return (this->address == clientMetadata.address
+                        && this->port == clientMetadata.port);
             }
         }
     }

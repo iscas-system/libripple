@@ -11,7 +11,9 @@
 #ifndef LIBRIPPLE_ACK_H
 #define LIBRIPPLE_ACK_H
 
-// TODO: Implement this
+#include <uuid/uuid.h>
+#include <set>
+
 namespace Ripple {
     namespace Common {
         namespace Entity {
@@ -24,6 +26,23 @@ namespace Ripple {
                 Ack(const Ack &) = delete;
 
                 Ack &operator=(const Ack &) = delete;
+
+                const uuid_t &GetMessageUuid() const;
+
+                void SetMessageUuid(uuid_t messageUuid);
+
+                const std::set<int> &GetNodeList() const;
+
+                void SetNodeList(std::set<int> nodeList);
+
+                const std::set<int> &GetAckNodes() const;
+
+                void SetAckNodes(std::set<int> ackNodes);
+
+            private:
+                uuid_t messageUuid;
+                std::set<int> nodeList;
+                std::set<int> ackNodes;
             };
         } // Entity
     } // Common

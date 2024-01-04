@@ -11,7 +11,8 @@
 #ifndef LIBRIPPLE_ITEM_H
 #define LIBRIPPLE_ITEM_H
 
-// TODO: Implement this
+#include <string>
+
 namespace Ripple {
     namespace Common {
         namespace Entity {
@@ -19,11 +20,27 @@ namespace Ripple {
             public:
                 Item();
 
+                Item(std::string applicationName, std::string key);
+
                 virtual ~Item();
 
                 Item(const Item &) = delete;
 
                 Item &operator=(const Item &) = delete;
+
+                bool operator==(const Item &item);
+
+                const std::string &GetApplicationName() const;
+
+                void SetApplicationName(std::string applicationName);
+
+                const std::string &GetKey() const;
+
+                void SetKey(std::string key);
+
+            private:
+                std::string applicationName;
+                std::string key;
             };
         }
     }
