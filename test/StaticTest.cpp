@@ -21,6 +21,7 @@
 #include "../include/UpdateMessage.h"
 #include "../include/IncrementalUpdateMessage.h"
 #include "../include/Constants.h"
+#include "../include/Storage.h"
 
 void AssertEquals(int expected, int actual) {
     if (expected != actual) {
@@ -160,8 +161,12 @@ void TestGenerateIncrementalUpdateMessage() {
               << "," << incrementalUpdateMessage2.GetLastUpdateServerId() << std::endl;
 }
 
+void TestDatabase() {
+    Ripple::Common::Storage::Storage storage("test.db");
+}
 
 int main(int argc, char *argv[]) {
+    TestDatabase();
     TestGenerateDeleteMessage();
     TestGenerateUpdateMessage();
     TestGenerateIncrementalUpdateMessage();

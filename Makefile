@@ -16,7 +16,7 @@ LDFLAGS=-g -Wall -Werror
 
 SHARED_FLAGS=-shared
 LIBRIPPLE_FLAGS=-lripple
-LIB_FLAGS=-lpthread -luuid
+LIB_FLAGS=-lpthread -luuid -lsqlite3
 
 LIBRARY_PATH=/usr/lib64
 INCLUDE_PATH=/usr/include

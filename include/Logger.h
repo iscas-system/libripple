@@ -21,6 +21,8 @@ namespace Ripple {
 
             static void Info(const char *source, const char *format, ...);
 
+            static void Error(const char *source, const char *format, ...);
+
             static void Error(int errorNumber, const char *source, const char *format, ...);
 
             static bool Enable;

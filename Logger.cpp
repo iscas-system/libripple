@@ -46,6 +46,19 @@ namespace Ripple {
             }
         }
 
+        void Logger::Error(const char *source, const char *format, ...) {
+            if (Logger::Enable && Logger::LogLevel <= LOG_LEVEL_ERROR) {
+                printf(COLOR_YELLOW "[%s] " COLOR_NONE, source);
+                printf(COLOR_BOLD_RED);
+                va_list arguments;
+                va_start(arguments, format);
+                vprintf(format, arguments);
+                va_end(arguments);
+                printf("\n");
+                printf(COLOR_NONE);
+            }
+        }
+
         void Logger::Error(int errorNumber, const char *source, const char *format, ...) {
             if (Logger::Enable && Logger::LogLevel <= LOG_LEVEL_ERROR) {
                 printf(COLOR_YELLOW "[%s] " COLOR_NONE, source);
