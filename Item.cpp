@@ -46,6 +46,7 @@ namespace Ripple {
                 return (this->applicationName == item.applicationName
                         && this->key == item.key);
             }
+
         }
     }
 }

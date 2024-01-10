@@ -31,11 +31,11 @@ namespace Ripple {
                 }
             }
 
-            const sqlite3 *Storage::GetDataBase() const {
+            sqlite3 *Storage::GetDataBase() const {
                 return this->database;
             }
 
-            const ItemService *Storage::GetItemService() const {
+            ItemService *Storage::GetItemService() const {
                 return this->itemService.get();
             }
 

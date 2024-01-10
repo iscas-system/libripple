@@ -9,8 +9,10 @@
 #ifndef LIBRIPPLE_ITEMSERVICE_H
 #define LIBRIPPLE_ITEMSERVICE_H
 
+#include <vector>
 #include <memory>
 #include "Storage.h"
+#include "Item.h"
 
 // TODO: Implement this
 namespace Ripple {
@@ -27,6 +29,8 @@ namespace Ripple {
                 ItemService(const ItemService &) = delete;
 
                 ItemService &operator=(const ItemService &) = delete;
+
+                std::shared_ptr<Entity::Item> GetItem(std::string applicationName, std::string key);
 
             private:
                 Storage *storage;

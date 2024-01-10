@@ -163,6 +163,10 @@ void TestGenerateIncrementalUpdateMessage() {
 
 void TestDatabase() {
     Ripple::Common::Storage::Storage storage("test.db");
+    auto item = storage.GetItemService()->GetItem("test", "test");
+    if (item != nullptr) {
+        std::cout << item->GetApplicationName() << "," << item->GetKey() << std::endl;
+    }
 }
 
 int main(int argc, char *argv[]) {

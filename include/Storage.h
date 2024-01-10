@@ -39,9 +39,9 @@ namespace Ripple {
 
                 const std::string &GetFileName() const;
 
-                const sqlite3 *GetDataBase() const;
+                sqlite3 *GetDataBase() const;
 
-                const ItemService *GetItemService() const;
+                ItemService *GetItemService() const;
 
                 const MessageService *GetMessageService() const;
 
