@@ -163,9 +163,17 @@ void TestGenerateIncrementalUpdateMessage() {
 
 void TestDatabase() {
     Ripple::Common::Storage::Storage storage("test.db");
+    std::cout << storage.GetItemService()->NewItem("test", "test") << std::endl;
+    std::cout << storage.GetItemService()->NewItem("test", "test1") << std::endl;
+    std::cout << storage.GetItemService()->NewItem("test1", "test") << std::endl;
+    
     auto item = storage.GetItemService()->GetItem("test", "test");
     if (item != nullptr) {
-        std::cout << item->GetApplicationName() << "," << item->GetKey() << std::endl;
+        std::cout << "Item: " << item->GetApplicationName() << "," << item->GetKey() << std::endl;
+    }
+    auto itemList = storage.GetItemService()->GetAllItems();
+    for (auto iter = itemList.begin(); iter != itemList.end(); iter++) {
+        std::cout << "ItemList.Item: " << (*iter)->GetApplicationName() << "," << (*iter)->GetKey() << std::endl;
     }
 }
 

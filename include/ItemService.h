@@ -11,10 +11,10 @@
 
 #include <vector>
 #include <memory>
+#include <mutex>
 #include "Storage.h"
 #include "Item.h"
 
-// TODO: Implement this
 namespace Ripple {
     namespace Common {
         namespace Storage {
@@ -32,8 +32,13 @@ namespace Ripple {
 
                 std::shared_ptr<Entity::Item> GetItem(std::string applicationName, std::string key);
 
+                std::vector<std::shared_ptr<Entity::Item>> GetAllItems();
+
+                bool NewItem(std::string applicationName, std::string key);
+
             private:
                 Storage *storage;
+                std::mutex mutex;
             };
         }
     }

@@ -10,9 +10,7 @@
 
 #include "ItemService.h"
 #include <memory>
-#include <iostream>
 
-// TODO: Implement this
 namespace Ripple {
     namespace Common {
         namespace Storage {
@@ -31,16 +29,55 @@ namespace Ripple {
                 if (sqlite3_prepare_v2(this->storage->GetDataBase(), sql, -1, &statement, nullptr) == SQLITE_OK) {
                     sqlite3_bind_text(statement, 1, applicationName.c_str(), -1, nullptr);
                     sqlite3_bind_text(statement, 2, key.c_str(), -1, nullptr);
+
+                    int step = sqlite3_step(statement);
+                    if (step == SQLITE_ROW) {
+                        // 0: application_name, 1: key
+                        std::string retApplicationName = std::string((const char *) sqlite3_column_text(statement, 0));
+                        std::string retKey = std::string((const char *) sqlite3_column_text(statement, 1));
+                        ret = std::make_shared<Entity::Item>(retApplicationName, retKey);
+                    }
+                    sqlite3_finalize(statement);
                 }
-                int step = sqlite3_step(statement);
-                if (step == SQLITE_ROW) {
-                    // 0: application_name, 1: key
-                    std::string retApplicationName = std::string((const char *) sqlite3_column_text(statement, 0));
-                    std::string retKey = std::string((const char *) sqlite3_column_text(statement, 1));
-                    ret = std::make_shared<Entity::Item>(retApplicationName, retKey);
-                }
-                sqlite3_finalize(statement);
                 return ret;
+            }
+
+            std::vector<std::shared_ptr<Entity::Item>> ItemService::GetAllItems() {
+                auto ret = std::vector<std::shared_ptr<Entity::Item>>();
+                const char *sql = "SELECT * FROM [item];";
+                sqlite3_stmt *statement = nullptr;
+                if (sqlite3_prepare_v2(this->storage->GetDataBase(), sql, -1, &statement, nullptr) == SQLITE_OK) {
+                    while (sqlite3_step(statement) == SQLITE_ROW) {
+                        // 0: application_name, 1: key
+                        std::string retApplicationName = std::string((const char *) sqlite3_column_text(statement, 0));
+                        std::string retKey = std::string((const char *) sqlite3_column_text(statement, 1));
+                        ret.push_back(std::make_shared<Entity::Item>(retApplicationName, retKey));
+                    }
+                    sqlite3_finalize(statement);
+                }
+                return ret;
+            }
+
+            bool ItemService::NewItem(std::string applicationName, std::string key) {
+                std::shared_ptr<Entity::Item> item = this->GetItem(applicationName, key);
+                if (item.get() != nullptr) {
+                    return false;
+                }
+
+                const char *sql = "INSERT INTO [item] ([application_name], [key]) VALUES (?,?);";
+                sqlite3_stmt *statement = nullptr;
+                if (sqlite3_prepare_v2(this->storage->GetDataBase(), sql, -1, &statement, nullptr) == SQLITE_OK) {
+                    this->mutex.lock();
+                    sqlite3_bind_text(statement, 1, applicationName.c_str(), -1, nullptr);
+                    sqlite3_bind_text(statement, 2, key.c_str(), -1, nullptr);
+
+                    int step = sqlite3_step(statement);
+                    sqlite3_finalize(statement);
+                    this->mutex.unlock();
+                    return (step == SQLITE_DONE);
+                }
+
+                return false;
             }
         }
     }
