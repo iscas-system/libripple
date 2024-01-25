@@ -40,11 +40,11 @@ namespace Ripple {
                 return this->itemService.get();
             }
 
-            const MessageService *Storage::GetMessageService() const {
+            MessageService *Storage::GetMessageService() const {
                 return this->messageService.get();
             }
 
-            const AckService *Storage::GetAckService() const {
+            AckService *Storage::GetAckService() const {
                 return this->ackService.get();
             }
 

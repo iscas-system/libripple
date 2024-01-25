@@ -22,6 +22,7 @@
 #include "../include/IncrementalUpdateMessage.h"
 #include "../include/Constants.h"
 #include "../include/Storage.h"
+#include "../include/MessageService.h"
 
 void AssertEquals(int expected, int actual) {
     if (expected != actual) {
@@ -56,7 +57,7 @@ void TestCompleteTree() {
     }
 
     Ripple::Server::Core::Overlay::Tree::CompleteTree completeTree(branch, nodeList);
-    const auto& root = completeTree.GetRoot();
+    const auto &root = completeTree.GetRoot();
     AssertEquals(1, root->GetNodeMetadata()->GetId());
 
     AssertEquals(3, root->GetChildren().size());
@@ -166,7 +167,7 @@ void TestDatabase() {
     std::cout << storage.GetItemService()->NewItem("test", "test") << std::endl;
     std::cout << storage.GetItemService()->NewItem("test", "test1") << std::endl;
     std::cout << storage.GetItemService()->NewItem("test1", "test") << std::endl;
-    
+
     auto item = storage.GetItemService()->GetItem("test", "test");
     if (item != nullptr) {
         std::cout << "Item: " << item->GetApplicationName() << "," << item->GetKey() << std::endl;
@@ -175,6 +176,13 @@ void TestDatabase() {
     for (auto iter = itemList.begin(); iter != itemList.end(); iter++) {
         std::cout << "ItemList.Item: " << (*iter)->GetApplicationName() << "," << (*iter)->GetKey() << std::endl;
     }
+
+    std::cout << storage.GetItemService()->NewItem("testApp", "testKey") << std::endl;
+    auto updateMessage = std::make_shared<Ripple::Common::Entity::UpdateMessage>("testApp", "testKey", "testValue",
+                                                                                 time(nullptr), 1);
+    std::cout << "New update message: " << storage.GetMessageService()->NewMessage(updateMessage) << std::endl;
+    std::cout << "New update message: " << storage.GetMessageService()->NewMessage(updateMessage) << std::endl;
+    std::cout << "Message exist:" << storage.GetMessageService()->Exist(updateMessage->GetUuid()) << std::endl;
 }
 
 int main(int argc, char *argv[]) {

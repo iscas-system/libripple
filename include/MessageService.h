@@ -34,9 +34,9 @@ namespace Ripple {
 
                 MessageService &operator=(const MessageService &) = delete;
 
-                bool NewMessage(Entity::AbstractMessage message);
+                bool NewMessage(std::shared_ptr<Entity::AbstractMessage> message);
 
-                bool Exist(uuid_t messageUuid);
+                bool Exist(const uuid_t messageUuid);
 
                 std::shared_ptr<Entity::AbstractMessage> GetMessageByUuid(uuid_t messageUuid);
 
@@ -45,12 +45,13 @@ namespace Ripple {
 
             private:
                 Storage *storage;
+                std::mutex mutex;
 
-                bool NewUpdateMessage(Entity::UpdateMessage updateMessage);
+                bool NewUpdateMessage(Entity::UpdateMessage *updateMessage);
 
-                bool NewDeleteMessage(Entity::DeleteMessage deleteMessage);
+                bool NewDeleteMessage(Entity::DeleteMessage *deleteMessage);
 
-                bool NewIncrementalUpdateMessage(Entity::IncrementalUpdateMessage incrementalUpdateMessage);
+                bool NewIncrementalUpdateMessage(Entity::IncrementalUpdateMessage *incrementalUpdateMessage);
 
                 std::shared_ptr<Entity::AbstractMessage> ParseMessage(sqlite3_stmt *statement);
             };

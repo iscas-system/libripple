@@ -43,9 +43,9 @@ namespace Ripple {
 
                 ItemService *GetItemService() const;
 
-                const MessageService *GetMessageService() const;
+                MessageService *GetMessageService() const;
 
-                const AckService *GetAckService() const;
+                AckService *GetAckService() const;
 
             private:
                 std::string fileName;
