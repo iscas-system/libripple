@@ -22,6 +22,48 @@ namespace Ripple {
             MessageService::~MessageService() {
 
             }
+
+            bool MessageService::NewMessage(Entity::AbstractMessage message) {
+                // TODO: Implement this
+                return false;
+            }
+
+            bool MessageService::Exist(uuid_t messageUuid) {
+                // TODO: Implement this
+                return false;
+            }
+
+            bool MessageService::NewUpdateMessage(Entity::UpdateMessage updateMessage) {
+                // TODO: Implement this
+                return false;
+            }
+
+            bool MessageService::NewDeleteMessage(Entity::DeleteMessage deleteMessage) {
+                // TODO: Implement this
+                return false;
+            }
+
+            bool
+            MessageService::NewIncrementalUpdateMessage(Entity::IncrementalUpdateMessage incrementalUpdateMessage) {
+                // TODO: Implement this
+                return false;
+            }
+
+            std::shared_ptr<Entity::AbstractMessage> MessageService::GetMessageByUuid(uuid_t messageUuid) {
+                // TODO: Implement this
+                return std::shared_ptr<Entity::AbstractMessage>();
+            }
+
+            std::vector<std::shared_ptr<Entity::AbstractMessage>>
+            MessageService::FindMessages(const std::string& applicationName, const std::string& key) {
+                // TODO: Implement this
+                return std::vector<std::shared_ptr<Entity::AbstractMessage>>();
+            }
+
+            std::shared_ptr<Entity::AbstractMessage> MessageService::ParseMessage(sqlite3_stmt *statement) {
+                // TODO: Implement this
+                return std::shared_ptr<Entity::AbstractMessage>();
+            }
         }
     }
 }

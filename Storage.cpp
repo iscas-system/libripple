@@ -9,6 +9,7 @@
 // See the Mulan PSL v2 for more details.
 
 #include <iostream>
+#include <utility>
 #include "Storage.h"
 #include "Logger.h"
 
@@ -17,7 +18,7 @@ namespace Ripple {
     namespace Common {
         namespace Storage {
             Storage::Storage(std::string fileName) {
-                this->SetFileName(fileName);
+                this->SetFileName(std::move(fileName));
                 this->ackService.reset(new AckService(this));
                 this->messageService.reset(new MessageService(this));
                 this->itemService.reset(new ItemService(this));
@@ -57,7 +58,7 @@ namespace Ripple {
 
             void Storage::Initialize() {
                 int ret = sqlite3_open_v2(this->GetFileName().c_str(), &this->database,
-                                          SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE, nullptr);
+                                          SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE | SQLITE_OPEN_FULLMUTEX, nullptr);
                 if (ret) {
                     Logger::Error("Storage", "Can't open database: %s.", sqlite3_errmsg(this->database));
                 } else {

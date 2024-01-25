@@ -56,7 +56,7 @@ void TestCompleteTree() {
     }
 
     Ripple::Server::Core::Overlay::Tree::CompleteTree completeTree(branch, nodeList);
-    auto root = completeTree.GetRoot();
+    const auto& root = completeTree.GetRoot();
     AssertEquals(1, root->GetNodeMetadata()->GetId());
 
     AssertEquals(3, root->GetChildren().size());

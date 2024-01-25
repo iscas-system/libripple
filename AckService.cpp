@@ -23,6 +23,26 @@ namespace Ripple {
 
             }
 
+            bool AckService::InitializeAck(unsigned char *uuid, std::vector<int> nodeList) {
+                // TODO: Implement this
+                return false;
+            }
+
+            std::shared_ptr<Entity::Ack> AckService::GetAck(uuid_t messageUuid) {
+                // TODO: Implement this
+                return nullptr;
+            }
+
+            std::vector<std::shared_ptr<Entity::Ack>> AckService::GetAllAcks() {
+                // TODO: Implement this
+                return std::vector<std::shared_ptr<Entity::Ack>>();
+            }
+
+            bool AckService::recordAck(unsigned char *messageUuid, int nodeId) {
+                // TODO: Implement this
+                return false;
+            }
+
 
         }
     }

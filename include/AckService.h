@@ -13,7 +13,10 @@
 
 // TODO: Implement this
 #include <memory>
+#include <vector>
+#include <uuid/uuid.h>
 #include "Storage.h"
+#include "Ack.h"
 
 namespace Ripple {
     namespace Common {
@@ -29,6 +32,14 @@ namespace Ripple {
                 AckService(const AckService &) = delete;
 
                 AckService &operator=(const AckService &) = delete;
+
+                bool InitializeAck(uuid_t uuid, std::vector<int> nodeList);
+
+                std::shared_ptr<Entity::Ack> GetAck(uuid_t messageUuid);
+
+                std::vector<std::shared_ptr<Entity::Ack>> GetAllAcks();
+
+                bool recordAck(uuid_t messageUuid, int nodeId);
 
             private:
                 Storage *storage;
