@@ -11,30 +11,11 @@
 #ifndef LIBRIPPLE_CONSTANTS_H
 #define LIBRIPPLE_CONSTANTS_H
 
-#include <string>
+#define MESSAGE_TYPE_UPDATE "update"
+#define MESSAGE_TYPE_DELETE "delete"
+#define MESSAGE_TYPE_INCREMENTAL_UPDATE "incremental_update"
 
-namespace Ripple {
-    namespace Common {
-        namespace Entity {
-            class Constants final {
-            public:
-                Constants(const Constants &) = delete;
-
-                Constants &operator=(const Constants &) = delete;
-
-                ~Constants() = default;
-
-                static constexpr const char *MESSAGE_TYPE_UPDATE = "update";
-                static constexpr const char *MESSAGE_TYPE_DELETE = "delete";
-                static constexpr const char *MESSAGE_TYPE_INCREMENTAL_UPDATE = "incremental_update";
-                static constexpr const char *ATOMIC_OPERATION_ADD_ENTRY = "add_entry";
-                static constexpr const char *ATOMIC_OPERATION_REMOVE_ENTRY = "remove_entry";
-
-            private:
-                Constants() = default;
-            };
-        }
-    }
-}
+#define ATOMIC_OPERATION_ADD_ENTRY "add_entry"
+#define ATOMIC_OPERATION_REMOVE_ENTRY "remove_entry"
 
 #endif //LIBRIPPLE_CONSTANTS_H

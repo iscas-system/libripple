@@ -21,7 +21,7 @@ namespace Ripple {
             }
 
             DeleteMessage::DeleteMessage(uuid_t uuid, std::string applicationName, std::string key, time_t lastUpdate,
-                                         int lastUpdateServerId) : AbstractMessage(uuid, Constants::MESSAGE_TYPE_DELETE,
+                                         int lastUpdateServerId) : AbstractMessage(uuid, MESSAGE_TYPE_DELETE,
                                                                                    std::move(applicationName),
                                                                                    std::move(key), lastUpdate,
                                                                                    lastUpdateServerId) {

@@ -56,7 +56,7 @@ namespace Ripple {
                                                                std::string value,
                                                                time_t lastUpdate, int lastUpdateServerId)
                     : AbstractMessage(uuid,
-                                      Constants::MESSAGE_TYPE_INCREMENTAL_UPDATE,
+                                      MESSAGE_TYPE_INCREMENTAL_UPDATE,
                                       std::move(
                                               applicationName),
                                       std::move(key),

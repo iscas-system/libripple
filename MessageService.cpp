@@ -40,7 +40,7 @@ namespace Ripple {
                 const char *sql = "SELECT * FROM [message] WHERE [uuid] = ?;";
                 sqlite3_stmt *statement = nullptr;
                 if (sqlite3_prepare_v2(this->storage->GetDataBase(), sql, -1, &statement, nullptr) == SQLITE_OK) {
-                    char uuidString[37];
+                    char uuidString[37]= {0};
                     uuid_unparse(messageUuid, uuidString);
                     sqlite3_bind_text(statement, 1, uuidString, -1, nullptr);
 
@@ -66,7 +66,7 @@ namespace Ripple {
                 if (sqlite3_prepare_v2(this->storage->GetDataBase(), sql, -1, &statement, nullptr) == SQLITE_OK) {
                     this->mutex.lock();
 
-                    char uuidString[37];
+                    char uuidString[37]= {0};
                     uuid_unparse(updateMessage->GetUuid(), uuidString);
                     int i = 1;
                     sqlite3_bind_text(statement, i++, uuidString, -1, nullptr);
@@ -88,13 +88,76 @@ namespace Ripple {
             }
 
             bool MessageService::NewDeleteMessage(Entity::DeleteMessage *deleteMessage) {
-                // TODO: Implement this
+                if (this->Exist(deleteMessage->GetUuid())) {
+                    return false;
+                }
+
+                const char *sql = "INSERT INTO [message] "
+                                  "([uuid], [item_application_name], [item_key], "
+                                  "[message_type], [last_update], [last_update_id]) "
+                                  "VALUES (?,?,?,?,?,?);";
+                sqlite3_stmt *statement = nullptr;
+                if (sqlite3_prepare_v2(this->storage->GetDataBase(), sql, -1, &statement, nullptr) == SQLITE_OK) {
+                    this->mutex.lock();
+
+                    char uuidString[37]= {0};
+                    uuid_unparse(deleteMessage->GetUuid(), uuidString);
+                    int i = 1;
+                    sqlite3_bind_text(statement, i++, uuidString, -1, nullptr);
+                    sqlite3_bind_text(statement, i++, deleteMessage->GetApplicationName().c_str(), -1, nullptr);
+                    sqlite3_bind_text(statement, i++, deleteMessage->GetKey().c_str(), -1, nullptr);
+                    sqlite3_bind_text(statement, i++, deleteMessage->GetType().c_str(), -1, nullptr);
+                    sqlite3_bind_int64(statement, i++, deleteMessage->GetLastUpdate());
+                    sqlite3_bind_int(statement, i, deleteMessage->GetLastUpdateServerId());
+
+                    int step = sqlite3_step(statement);
+                    sqlite3_finalize(statement);
+
+                    this->mutex.unlock();
+                    return (step == SQLITE_DONE);
+                }
+
                 return false;
             }
 
             bool
             MessageService::NewIncrementalUpdateMessage(Entity::IncrementalUpdateMessage *incrementalUpdateMessage) {
-                // TODO: Implement this
+                if (this->Exist(incrementalUpdateMessage->GetUuid())) {
+                    return false;
+                }
+
+                const char *sql = "INSERT INTO [message] "
+                                  "([uuid], [item_application_name], [item_key], [message_type]"
+                                  ", [base_message_uuid], [atomic_operation], [new_value]"
+                                  ", [last_update], [last_update_id]) "
+                                  "VALUES (?,?,?,?,?, ?, ?, ?,?);";
+                sqlite3_stmt *statement = nullptr;
+                if (sqlite3_prepare_v2(this->storage->GetDataBase(), sql, -1, &statement, nullptr) == SQLITE_OK) {
+                    this->mutex.lock();
+
+                    char uuidString[37] = {0};
+                    char baseMessageUuidString[37] = {0};
+                    uuid_unparse(incrementalUpdateMessage->GetUuid(), uuidString);
+                    uuid_unparse(incrementalUpdateMessage->GetBaseMessageUuid(), baseMessageUuidString);
+
+                    int i = 1;
+                    sqlite3_bind_text(statement, i++, uuidString, -1, nullptr);
+                    sqlite3_bind_text(statement, i++, incrementalUpdateMessage->GetApplicationName().c_str(), -1, nullptr);
+                    sqlite3_bind_text(statement, i++, incrementalUpdateMessage->GetKey().c_str(), -1, nullptr);
+                    sqlite3_bind_text(statement, i++, incrementalUpdateMessage->GetType().c_str(), -1, nullptr);
+                    sqlite3_bind_text(statement, i++, baseMessageUuidString, -1, nullptr);
+                    sqlite3_bind_text(statement, i++, incrementalUpdateMessage->GetAtomicOperation().c_str(), -1, nullptr);
+                    sqlite3_bind_text(statement, i++, incrementalUpdateMessage->GetValue().c_str(), -1, nullptr);
+                    sqlite3_bind_int64(statement, i++, incrementalUpdateMessage->GetLastUpdate());
+                    sqlite3_bind_int(statement, i, incrementalUpdateMessage->GetLastUpdateServerId());
+
+                    int step = sqlite3_step(statement);
+                    sqlite3_finalize(statement);
+
+                    this->mutex.unlock();
+                    return (step == SQLITE_DONE);
+                }
+
                 return false;
             }
 

@@ -27,7 +27,7 @@ namespace Ripple {
 
             UpdateMessage::UpdateMessage(uuid_t uuid, std::string applicationName, std::string key, std::string value,
                                          time_t lastUpdate, int lastUpdateServerId) : AbstractMessage(uuid,
-                                                                                                      Constants::MESSAGE_TYPE_UPDATE,
+                                                                                                      MESSAGE_TYPE_UPDATE,
                                                                                                       std::move(
                                                                                                               applicationName),
                                                                                                       std::move(key),

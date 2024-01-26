@@ -113,13 +113,13 @@ output/SystemInfo.o: SystemInfo.cpp include/SystemInfo.h
 output/AbstractMessage.o: AbstractMessage.cpp include/AbstractMessage.h
 	$(RIPPLE_CC) $(CPPFLAGS) $(INCLUDE_FLAGS) -o $@ $<
 
-output/UpdateMessage.o: UpdateMessage.cpp include/UpdateMessage.h include/Constants.h
+output/UpdateMessage.o: UpdateMessage.cpp include/UpdateMessage.h
 	$(RIPPLE_CC) $(CPPFLAGS) $(INCLUDE_FLAGS) -o $@ $<
 
-output/IncrementalUpdateMessage.o: IncrementalUpdateMessage.cpp include/IncrementalUpdateMessage.h include/Constants.h
+output/IncrementalUpdateMessage.o: IncrementalUpdateMessage.cpp include/IncrementalUpdateMessage.h
 	$(RIPPLE_CC) $(CPPFLAGS) $(INCLUDE_FLAGS) -o $@ $<
 
-output/DeleteMessage.o: DeleteMessage.cpp include/DeleteMessage.h include/Constants.h
+output/DeleteMessage.o: DeleteMessage.cpp include/DeleteMessage.h
 	$(RIPPLE_CC) $(CPPFLAGS) $(INCLUDE_FLAGS) -o $@ $<
 
 output/Overlay.o: Overlay.cpp include/Overlay.h
@@ -169,4 +169,3 @@ output/ModHashing.o: ModHashing.cpp include/ModHashing.h
 
 output/Logger.o: Logger.cpp include/Logger.h
 	$(RIPPLE_CC) $(CPPFLAGS) $(INCLUDE_FLAGS) -o $@ $<
-

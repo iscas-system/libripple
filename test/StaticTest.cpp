@@ -22,7 +22,6 @@
 #include "../include/IncrementalUpdateMessage.h"
 #include "../include/Constants.h"
 #include "../include/Storage.h"
-#include "../include/MessageService.h"
 
 void AssertEquals(int expected, int actual) {
     if (expected != actual) {
@@ -135,7 +134,7 @@ void TestGenerateIncrementalUpdateMessage() {
     uuid_t baseMessageUuid;
     uuid_generate(baseMessageUuid);
     Ripple::Common::Entity::IncrementalUpdateMessage incrementalUpdateMessage("testApp", "testKey", baseMessageUuid,
-                                                                              Ripple::Common::Entity::Constants::ATOMIC_OPERATION_ADD_ENTRY,
+                                                                              ATOMIC_OPERATION_ADD_ENTRY,
                                                                               "testValue",
                                                                               time(nullptr), 1);
     char uuidStr[37];
@@ -151,7 +150,7 @@ void TestGenerateIncrementalUpdateMessage() {
     uuid_generate(baseMessageUuid);
     Ripple::Common::Entity::IncrementalUpdateMessage incrementalUpdateMessage2(uuid2, "testApp2", "testKey2",
                                                                                baseMessageUuid,
-                                                                               Ripple::Common::Entity::Constants::ATOMIC_OPERATION_REMOVE_ENTRY,
+                                                                               ATOMIC_OPERATION_REMOVE_ENTRY,
                                                                                "testValue2",
                                                                                time(nullptr), 2);
     uuid_unparse(incrementalUpdateMessage2.GetUuid(), uuidStr);
@@ -183,15 +182,37 @@ void TestDatabase() {
     std::cout << "New update message: " << storage.GetMessageService()->NewMessage(updateMessage) << std::endl;
     std::cout << "New update message: " << storage.GetMessageService()->NewMessage(updateMessage) << std::endl;
     std::cout << "Message exist:" << storage.GetMessageService()->Exist(updateMessage->GetUuid()) << std::endl;
+
+    auto deleteMessage = std::make_shared<Ripple::Common::Entity::DeleteMessage>("testApp", "testKey", time(nullptr),
+                                                                                 1);
+    std::cout << "New delete message: " << storage.GetMessageService()->NewMessage(deleteMessage) << std::endl;
+    std::cout << "New delete message: " << storage.GetMessageService()->NewMessage(deleteMessage) << std::endl;
+    std::cout << "Message exist:" << storage.GetMessageService()->Exist(deleteMessage->GetUuid()) << std::endl;
+
+    uuid_t baseMessageUuid;
+    uuid_generate(baseMessageUuid);
+    auto incrementalUpdateMessage = std::make_shared<Ripple::Common::Entity::IncrementalUpdateMessage>("testApp",
+                                                                                                       "testKey",
+                                                                                                       baseMessageUuid,
+                                                                                                       ATOMIC_OPERATION_ADD_ENTRY,
+                                                                                                       "testValue",
+                                                                                                       time(nullptr),
+                                                                                                       1);
+    std::cout << "New incremental update message: " << storage.GetMessageService()->NewMessage(incrementalUpdateMessage)
+              << std::endl;
+    std::cout << "New incremental update message: " << storage.GetMessageService()->NewMessage(incrementalUpdateMessage)
+              << std::endl;
+    std::cout << "Message exist:" << storage.GetMessageService()->Exist(incrementalUpdateMessage->GetUuid())
+              << std::endl;
 }
 
 int main(int argc, char *argv[]) {
-    TestDatabase();
     TestGenerateDeleteMessage();
     TestGenerateUpdateMessage();
     TestGenerateIncrementalUpdateMessage();
     TestStarOverlay();
     TestCompleteTree();
     TestTreeOverlay();
+    TestDatabase();
     return 0;
 }
