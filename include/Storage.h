@@ -17,7 +17,6 @@
 #include "MessageService.h"
 #include "AckService.h"
 
-// TODO: Implement this
 namespace Ripple {
     namespace Common {
         namespace Storage {

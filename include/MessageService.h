@@ -18,7 +18,6 @@
 #include "DeleteMessage.h"
 #include "IncrementalUpdateMessage.h"
 
-// TODO: Implement this
 namespace Ripple {
     namespace Common {
         namespace Storage {
@@ -34,7 +33,7 @@ namespace Ripple {
 
                 MessageService &operator=(const MessageService &) = delete;
 
-                bool NewMessage(std::shared_ptr<Entity::AbstractMessage> message);
+                bool NewMessage(const std::shared_ptr<Entity::AbstractMessage>& message);
 
                 bool Exist(const uuid_t messageUuid);
 
@@ -47,11 +46,11 @@ namespace Ripple {
                 Storage *storage;
                 std::mutex mutex;
 
-                bool NewUpdateMessage(Entity::UpdateMessage *updateMessage);
+                bool NewUpdateMessage(const std::shared_ptr<Entity::UpdateMessage>& updateMessage);
 
-                bool NewDeleteMessage(Entity::DeleteMessage *deleteMessage);
+                bool NewDeleteMessage(const std::shared_ptr<Entity::DeleteMessage>& deleteMessage);
 
-                bool NewIncrementalUpdateMessage(Entity::IncrementalUpdateMessage *incrementalUpdateMessage);
+                bool NewIncrementalUpdateMessage(const std::shared_ptr<Entity::IncrementalUpdateMessage>& incrementalUpdateMessage);
 
                 std::shared_ptr<Entity::AbstractMessage> ParseMessage(sqlite3_stmt *statement);
 

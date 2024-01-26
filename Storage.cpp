@@ -13,7 +13,6 @@
 #include "Storage.h"
 #include "Logger.h"
 
-// TODO: Implement this
 namespace Ripple {
     namespace Common {
         namespace Storage {

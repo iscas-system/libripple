@@ -13,7 +13,6 @@
 #include <uuid/uuid.h>
 #include <memory>
 
-// TODO: Implement this
 namespace Ripple {
     namespace Common {
         namespace Storage {
@@ -25,12 +24,13 @@ namespace Ripple {
 
             }
 
-            bool MessageService::NewMessage(std::shared_ptr<Entity::AbstractMessage> message) {
-                if (Entity::UpdateMessage *updateMessage = dynamic_cast<Entity::UpdateMessage *>(message.get())) {
+            bool MessageService::NewMessage(const std::shared_ptr<Entity::AbstractMessage> &message) {
+                if (auto updateMessage = std::dynamic_pointer_cast<Entity::UpdateMessage>(message)) {
                     return this->NewUpdateMessage(updateMessage);
-                } else if (Entity::DeleteMessage *deleteMessage = dynamic_cast<Entity::DeleteMessage *>(message.get())) {
+                } else if (auto deleteMessage = std::dynamic_pointer_cast<Entity::DeleteMessage>(message)) {
                     return this->NewDeleteMessage(deleteMessage);
-                } else if (Entity::IncrementalUpdateMessage *incrementalUpdateMessage = dynamic_cast<Entity::IncrementalUpdateMessage *>(message.get())) {
+                } else if (auto incrementalUpdateMessage = std::dynamic_pointer_cast<Entity::IncrementalUpdateMessage>(
+                        message)) {
                     return this->NewIncrementalUpdateMessage(incrementalUpdateMessage);
                 }
                 return false;
@@ -54,7 +54,7 @@ namespace Ripple {
                 return ret;
             }
 
-            bool MessageService::NewUpdateMessage(Entity::UpdateMessage *updateMessage) {
+            bool MessageService::NewUpdateMessage(const std::shared_ptr<Entity::UpdateMessage> &updateMessage) {
                 if (this->Exist(updateMessage->GetUuid())) {
                     return false;
                 }
@@ -88,7 +88,7 @@ namespace Ripple {
                 return false;
             }
 
-            bool MessageService::NewDeleteMessage(Entity::DeleteMessage *deleteMessage) {
+            bool MessageService::NewDeleteMessage(const std::shared_ptr<Entity::DeleteMessage> &deleteMessage) {
                 if (this->Exist(deleteMessage->GetUuid())) {
                     return false;
                 }
@@ -122,7 +122,8 @@ namespace Ripple {
             }
 
             bool
-            MessageService::NewIncrementalUpdateMessage(Entity::IncrementalUpdateMessage *incrementalUpdateMessage) {
+            MessageService::NewIncrementalUpdateMessage(
+                    const std::shared_ptr<Entity::IncrementalUpdateMessage> &incrementalUpdateMessage) {
                 if (this->Exist(incrementalUpdateMessage->GetUuid())) {
                     return false;
                 }
