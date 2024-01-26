@@ -16,7 +16,7 @@
 namespace Ripple {
     namespace Common {
         namespace Entity {
-            const uuid_t &IncrementalUpdateMessage::GetBaseMessageUuid() const {
+            uuid_t &IncrementalUpdateMessage::GetBaseMessageUuid() {
                 return this->baseMessageUuid;
             }
 

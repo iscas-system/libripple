@@ -23,6 +23,45 @@
 #include "../include/Constants.h"
 #include "../include/Storage.h"
 
+void PrintUpdateMessage(Ripple::Common::Entity::UpdateMessage *updateMessage) {
+    char uuidStr[37] = {0};
+    uuid_unparse(updateMessage->GetUuid(), uuidStr);
+    std::cout
+            << "[UpdateMessage] " << "uuid = " << uuidStr << ", " << "type = " << updateMessage->GetType() << ", "
+            << "application name = " << updateMessage->GetApplicationName() << ", "
+            << "key = " << updateMessage->GetKey() << "," << "value = " << updateMessage->GetValue() << ","
+            << "last update = " << updateMessage->GetLastUpdate() << ","
+            << "last update server id = " << updateMessage->GetLastUpdateServerId() << std::endl;
+}
+
+void PrintDeleteMessage(Ripple::Common::Entity::DeleteMessage *deleteMessage) {
+    char uuidStr[37] = {0};
+    uuid_unparse(deleteMessage->GetUuid(), uuidStr);
+    std::cout
+            << "[DeleteMessage] " << "uuid = " << uuidStr << ", " << "type = " << deleteMessage->GetType() << ", "
+            << "application name = " << deleteMessage->GetApplicationName() << ", "
+            << "key = " << deleteMessage->GetKey() << ","
+            << "last update = " << deleteMessage->GetLastUpdate() << ","
+            << "last update server id = " << deleteMessage->GetLastUpdateServerId() << std::endl;
+}
+
+void PrintIncrementalUpdateMessage(Ripple::Common::Entity::IncrementalUpdateMessage *incrementalUpdateMessage) {
+    char uuidStr[37] = {0};
+    uuid_unparse(incrementalUpdateMessage->GetUuid(), uuidStr);
+    char baseMessageUuidStr[37] = {0};
+    uuid_unparse(incrementalUpdateMessage->GetBaseMessageUuid(), baseMessageUuidStr);
+    std::cout
+            << "[IncrementalUpdateMessage] " << "uuid = " << uuidStr << ", " << "type = "
+            << incrementalUpdateMessage->GetType() << ", "
+            << "application name = " << incrementalUpdateMessage->GetApplicationName() << ", "
+            << "key = " << incrementalUpdateMessage->GetKey() << ","
+            << "base message uuid = " << baseMessageUuidStr << ", "
+            << "atomic operation = " << incrementalUpdateMessage->GetAtomicOperation() << ", "
+            << "value = " << incrementalUpdateMessage->GetValue() << ","
+            << "last update = " << incrementalUpdateMessage->GetLastUpdate() << ","
+            << "last update server id = " << incrementalUpdateMessage->GetLastUpdateServerId() << std::endl;
+}
+
 void AssertEquals(int expected, int actual) {
     if (expected != actual) {
         Ripple::Common::Logger::Info("Assert", "Assertion failed: expected: %d, actual: %d.", expected, actual);
@@ -177,17 +216,26 @@ void TestDatabase() {
     }
 
     std::cout << storage.GetItemService()->NewItem("testApp", "testKey") << std::endl;
+
     auto updateMessage = std::make_shared<Ripple::Common::Entity::UpdateMessage>("testApp", "testKey", "testValue",
                                                                                  time(nullptr), 1);
     std::cout << "New update message: " << storage.GetMessageService()->NewMessage(updateMessage) << std::endl;
     std::cout << "New update message: " << storage.GetMessageService()->NewMessage(updateMessage) << std::endl;
     std::cout << "Message exist:" << storage.GetMessageService()->Exist(updateMessage->GetUuid()) << std::endl;
 
+    auto getUpdateMessage = std::dynamic_pointer_cast<Ripple::Common::Entity::UpdateMessage>(
+            storage.GetMessageService()->GetMessageByUuid(updateMessage->GetUuid()));
+    PrintUpdateMessage(getUpdateMessage.get());
+
     auto deleteMessage = std::make_shared<Ripple::Common::Entity::DeleteMessage>("testApp", "testKey", time(nullptr),
                                                                                  1);
     std::cout << "New delete message: " << storage.GetMessageService()->NewMessage(deleteMessage) << std::endl;
     std::cout << "New delete message: " << storage.GetMessageService()->NewMessage(deleteMessage) << std::endl;
     std::cout << "Message exist:" << storage.GetMessageService()->Exist(deleteMessage->GetUuid()) << std::endl;
+
+    auto getDeleteMessage = std::dynamic_pointer_cast<Ripple::Common::Entity::DeleteMessage>(
+            storage.GetMessageService()->GetMessageByUuid(deleteMessage->GetUuid()));
+    PrintDeleteMessage(getDeleteMessage.get());
 
     uuid_t baseMessageUuid;
     uuid_generate(baseMessageUuid);
@@ -204,6 +252,22 @@ void TestDatabase() {
               << std::endl;
     std::cout << "Message exist:" << storage.GetMessageService()->Exist(incrementalUpdateMessage->GetUuid())
               << std::endl;
+
+    auto getIncrementalUpdateMessage = std::dynamic_pointer_cast<Ripple::Common::Entity::IncrementalUpdateMessage>(
+            storage.GetMessageService()->GetMessageByUuid(incrementalUpdateMessage->GetUuid()));
+    PrintIncrementalUpdateMessage(getIncrementalUpdateMessage.get());
+
+    auto ret = storage.GetMessageService()->FindMessages("testApp", "testKey");
+    for (auto it = ret.begin(); it != ret.end(); it++) {
+        if ((*it)->GetType() == MESSAGE_TYPE_UPDATE) {
+            PrintUpdateMessage(std::dynamic_pointer_cast<Ripple::Common::Entity::UpdateMessage>(*it).get());
+        } else if ((*it)->GetType() == MESSAGE_TYPE_DELETE) {
+            PrintDeleteMessage(std::dynamic_pointer_cast<Ripple::Common::Entity::DeleteMessage>(*it).get());
+        } else if ((*it)->GetType() == MESSAGE_TYPE_INCREMENTAL_UPDATE) {
+            PrintIncrementalUpdateMessage(
+                    std::dynamic_pointer_cast<Ripple::Common::Entity::IncrementalUpdateMessage>(*it).get());
+        }
+    }
 }
 
 int main(int argc, char *argv[]) {

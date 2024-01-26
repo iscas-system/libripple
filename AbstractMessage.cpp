@@ -36,7 +36,7 @@ namespace Ripple {
 
             }
 
-            const uuid_t &AbstractMessage::GetUuid() const {
+            uuid_t &AbstractMessage::GetUuid() {
                 return this->uuid;
             }
 

@@ -54,6 +54,9 @@ namespace Ripple {
                 bool NewIncrementalUpdateMessage(Entity::IncrementalUpdateMessage *incrementalUpdateMessage);
 
                 std::shared_ptr<Entity::AbstractMessage> ParseMessage(sqlite3_stmt *statement);
+
+                void DoParseAbstractMessage(sqlite3_stmt *statement, std::shared_ptr<Entity::AbstractMessage> &message,
+                                            std::string &messageType) const;
             };
         }
     }

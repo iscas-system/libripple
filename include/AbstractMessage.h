@@ -32,7 +32,7 @@ namespace Ripple {
 
                 AbstractMessage &operator=(const AbstractMessage &) = delete;
 
-                const uuid_t &GetUuid() const;
+                uuid_t &GetUuid();
 
                 void SetUuid(uuid_t uuid);
 

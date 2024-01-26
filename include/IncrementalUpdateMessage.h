@@ -35,7 +35,7 @@ namespace Ripple {
 
                 IncrementalUpdateMessage &operator=(const IncrementalUpdateMessage &) = delete;
 
-                const uuid_t &GetBaseMessageUuid() const;
+                uuid_t &GetBaseMessageUuid();
 
                 void SetBaseMessageUuid(uuid_t baseMessageUuid);
 
