@@ -6,10 +6,12 @@ The fundamental node, communication, overlay and consistency management of Rippl
 ```shell
 # For CentOS Stream 8 & openEuler 23.09 (x86-64)
 dnf install libuuid-devel
+# For openEuler 23.09 (RISC-V)
+dnf install util-linux-devel
 ```
 - sqlite: embedded database
 ```shell
-# For CentOS Stream 8 & openEuler 23.09 (x86-64)
+# For CentOS Stream 8 & openEuler 23.09 (x86-64 / RISC-V)
 dnf install sqlite-devel
 ```
 - libuv: async I/O framework 
