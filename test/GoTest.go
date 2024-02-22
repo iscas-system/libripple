@@ -13,7 +13,7 @@ import (
 func main() {
 	fmt.Println("hello, world")
 	nodeCount := 10
-	message := (*C.struct_RippleAbstractMessage)(C.malloc(C.size_t(C.sizeof_struct_RippleAbstractMessage)))
+	message := (*C.struct_RippleMessage)(C.malloc(C.size_t(C.sizeof_struct_RippleMessage)))
 	defer C.free(unsafe.Pointer(message))
 	nodeList := (*C.struct_RippleNodeMetadata)(C.malloc(C.size_t(C.sizeof_struct_RippleNodeMetadata * C.int(nodeCount))))
 	defer C.free(unsafe.Pointer(nodeList))

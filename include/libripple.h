@@ -15,14 +15,29 @@
 extern "C" {
 #endif
 
+#include <time.h>
+#include <uuid/uuid.h>
+
 struct RippleNodeMetadata {
     int Id;
     char *Address;
     int Port;
 };
 
-struct RippleAbstractMessage {
-    int Id;
+struct RippleMessage {
+    uuid_t Uuid;
+    char *Type;
+    char *ApplicationName;
+    char *Key;
+    time_t LastUpdate;
+    int LastUpdateServerId;
+
+    // For UpdateMessage and IncrementalUpdateMessage
+    char *Value;
+
+    // For IncrementalUpdateMessage
+    uuid_t BaseMessageUuid;
+    char *AtomicOperation;
 };
 
 void RippleLoggerInfo(const char *source, const char *format);
@@ -31,12 +46,14 @@ void *RippleCreateTreeOverlay(int branch);
 void RippleBuildOverlay(void *overlay, struct RippleNodeMetadata *nodeList, int nodeCount);
 
 // Returns the count of elements in the list. Results will be saved in the buffer.
-int RippleCalculateNodesToSync(void *overlay, struct RippleNodeMetadata *buffer, struct RippleAbstractMessage *message,
-                               struct RippleNodeMetadata *source,
-                               struct RippleNodeMetadata *current);
+// The caller needs to allocate and clean up the structs used.
+int RippleCalculateNodesToSync(void *overlay, struct RippleNodeMetadata *buffer, struct RippleMessage *message,
+                               struct RippleNodeMetadata *source, struct RippleNodeMetadata *current);
 
-// Returns the count of elements in the list. Results will be saved in the buffer.
-int RippleCalculateNodesToCollectAck(void *overlay, struct RippleNodeMetadata *buffer, struct RippleAbstractMessage *message);
+// Returns the count of elements in the list.
+// Results will be saved in the buffer.
+// The caller needs to allocate and clean up the structs used.
+int RippleCalculateNodesToCollectAck(void *overlay, struct RippleNodeMetadata *buffer, struct RippleMessage *message);
 
 void RippleDeleteOverlay(void *overlay);
 

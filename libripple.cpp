@@ -14,17 +14,21 @@
 #include "Logger.h"
 #include "StarOverlay.h"
 #include "TreeOverlay.h"
-
+#include "Constants.h"
+#include "UpdateMessage.h"
+#include "DeleteMessage.h"
+#include "IncrementalUpdateMessage.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-void convertList(RippleNodeMetadata *buffer, std::vector<std::shared_ptr<Ripple::Common::Entity::NodeMetadata>> &list);
-std::shared_ptr<Ripple::Common::Entity::AbstractMessage>
-convertMessageFromStruct(struct RippleAbstractMessage *message);
+static void
+convertList(RippleNodeMetadata *buffer, std::vector<std::shared_ptr<Ripple::Common::Entity::NodeMetadata>> &list);
+static std::shared_ptr<Ripple::Common::Entity::AbstractMessage> convertMessageFromStruct(struct RippleMessage *message);
 
-void convertList(RippleNodeMetadata *buffer, std::vector<std::shared_ptr<Ripple::Common::Entity::NodeMetadata>> &list) {
+static void
+convertList(RippleNodeMetadata *buffer, std::vector<std::shared_ptr<Ripple::Common::Entity::NodeMetadata>> &list) {
     int i = 0;
     for (i = 0; i < (int) list.size(); i++) {
         auto node = list.at(i);
@@ -35,10 +39,50 @@ void convertList(RippleNodeMetadata *buffer, std::vector<std::shared_ptr<Ripple:
     }
 }
 
-std::shared_ptr<Ripple::Common::Entity::AbstractMessage>
-convertMessageFromStruct(struct RippleAbstractMessage *message) {
-    // TODO: Extract information from API input
-    return std::make_shared<Ripple::Common::Entity::AbstractMessage>();
+static std::shared_ptr<Ripple::Common::Entity::AbstractMessage>
+convertMessageFromStruct(struct RippleMessage *message) {
+    if (message != nullptr) {
+        if (message->Type != nullptr) {
+            std::shared_ptr<Ripple::Common::Entity::AbstractMessage> ret = nullptr;
+            if (strcmp(message->Type, MESSAGE_TYPE_DELETE) == 0) {
+                ret = std::make_shared<Ripple::Common::Entity::DeleteMessage>();
+            } else if (strcmp(message->Type, MESSAGE_TYPE_UPDATE) == 0) {
+                ret = std::make_shared<Ripple::Common::Entity::UpdateMessage>();
+                auto p = std::dynamic_pointer_cast<Ripple::Common::Entity::UpdateMessage>(ret);
+                if (message->Value != nullptr) {
+                    p->SetValue(std::string(message->Value));
+                }
+            } else if (strcmp(message->Type, MESSAGE_TYPE_INCREMENTAL_UPDATE) == 0) {
+                ret = std::make_shared<Ripple::Common::Entity::IncrementalUpdateMessage>();
+                auto p = std::dynamic_pointer_cast<Ripple::Common::Entity::IncrementalUpdateMessage>(ret);
+                if (message->Value != nullptr) {
+                    p->SetValue(std::string(message->Value));
+                }
+                if (!uuid_is_null(message->BaseMessageUuid)) {
+                    p->SetBaseMessageUuid(message->BaseMessageUuid);
+                }
+                if (message->AtomicOperation != nullptr) {
+                    p->SetAtomicOperation(std::string(message->AtomicOperation));
+                }
+            } else {
+                // Unknown type
+                return nullptr;
+            }
+            if (!uuid_is_null(message->Uuid)) {
+                ret->SetUuid(message->Uuid);
+            }
+            if (message->ApplicationName != nullptr) {
+                ret->SetApplicationName(std::string(message->ApplicationName));
+            }
+            if (message->Key != nullptr) {
+                ret->SetKey(std::string(message->Key));
+            }
+            ret->SetLastUpdate(message->LastUpdate);
+            ret->SetLastUpdateServerId(message->LastUpdateServerId);
+            return ret;
+        }
+    }
+    return nullptr;
 }
 
 void RippleLoggerInfo(const char *source, const char *format) {
@@ -65,7 +109,7 @@ void RippleBuildOverlay(void *overlay, struct RippleNodeMetadata *nodeList, int 
 }
 
 
-int RippleCalculateNodesToSync(void *overlay, struct RippleNodeMetadata *buffer, struct RippleAbstractMessage *message,
+int RippleCalculateNodesToSync(void *overlay, struct RippleNodeMetadata *buffer, struct RippleMessage *message,
                                struct RippleNodeMetadata *source,
                                struct RippleNodeMetadata *current) {
     auto sourceNode = std::make_shared<Ripple::Common::Entity::NodeMetadata>(
@@ -81,7 +125,7 @@ int RippleCalculateNodesToSync(void *overlay, struct RippleNodeMetadata *buffer,
 
 int
 RippleCalculateNodesToCollectAck(void *overlay, struct RippleNodeMetadata *buffer,
-                                 struct RippleAbstractMessage *message) {
+                                 struct RippleMessage *message) {
     auto list = ((Ripple::Server::Core::Overlay::Overlay *) overlay)->CalculateNodesToCollectAck(
             convertMessageFromStruct(message));
     convertList(buffer, list);
