@@ -23,7 +23,7 @@ namespace Ripple {
 
             }
 
-            const uuid_t &Ack::GetMessageUuid() const {
+            uuid_t &Ack::GetMessageUuid() {
                 return this->messageUuid;
             }
 
@@ -33,7 +33,7 @@ namespace Ripple {
                 }
             }
 
-            const std::set<int> &Ack::GetNodeList() const {
+            std::set<int> &Ack::GetNodeList() {
                 return this->nodeList;
             }
 
@@ -41,7 +41,7 @@ namespace Ripple {
                 this->nodeList = std::move(nodeList);
             }
 
-            const std::set<int> &Ack::GetAckNodes() const {
+            std::set<int> &Ack::GetAckNodes() {
                 return this->ackNodes;
             }
 

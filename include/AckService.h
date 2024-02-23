@@ -33,16 +33,19 @@ namespace Ripple {
 
                 AckService &operator=(const AckService &) = delete;
 
-                bool InitializeAck(uuid_t uuid, std::vector<int> nodeList);
+                bool InitializeAck(uuid_t uuid, std::set<int> nodeList);
 
                 std::shared_ptr<Entity::Ack> GetAck(uuid_t messageUuid);
 
                 std::vector<std::shared_ptr<Entity::Ack>> GetAllAcks();
 
-                bool recordAck(uuid_t messageUuid, int nodeId);
+                bool RecordAck(uuid_t messageUuid, int nodeId);
 
             private:
                 Storage *storage;
+                std::mutex mutex;
+
+                std::shared_ptr<Entity::Ack> ParseAck(sqlite3_stmt *statement) const;
             };
         }
     }

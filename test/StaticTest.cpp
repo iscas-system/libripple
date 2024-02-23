@@ -268,6 +268,44 @@ void TestDatabase() {
                     std::dynamic_pointer_cast<Ripple::Common::Entity::IncrementalUpdateMessage>(*it).get());
         }
     }
+
+
+    std::set<int> s;
+    s.insert(1);
+    s.insert(2);
+    s.insert(3);
+    storage.GetAckService()->InitializeAck(incrementalUpdateMessage->GetUuid(), s);
+    storage.GetAckService()->RecordAck(incrementalUpdateMessage->GetUuid(), 1);
+    auto ack = storage.GetAckService()->GetAck(incrementalUpdateMessage->GetUuid());
+    char uuidStr[37];
+    uuid_unparse(ack->GetMessageUuid(), uuidStr);
+    std::cout << "ACK: uuid = " << uuidStr << ", Node list = ";
+    for (auto elem: ack->GetNodeList()) {
+        std::cout << elem << " ";
+    }
+    std::cout << ", Ack nodes = ";
+    for (auto elem: ack->GetAckNodes()) {
+        std::cout << elem << " ";
+    }
+    std::cout << std::endl;
+
+    storage.GetAckService()->RecordAck(incrementalUpdateMessage->GetUuid(), 2);
+    std::cout << "Get all acks" << std::endl;
+    auto ackList = storage.GetAckService()->GetAllAcks();
+    for (auto a: ackList) {
+        char u[37];
+        uuid_unparse(a->GetMessageUuid(), u);
+        std::cout << "-> ACK: uuid = " << u << ", Node list = ";
+        for (auto elem: a->GetNodeList()) {
+            std::cout << elem << " ";
+        }
+        std::cout << ", Ack nodes = ";
+        for (auto elem: a->GetAckNodes()) {
+            std::cout << elem << " ";
+        }
+        std::cout << std::endl;
+    }
+
 }
 
 int main(int argc, char *argv[]) {

@@ -27,15 +27,15 @@ namespace Ripple {
 
                 Ack &operator=(const Ack &) = delete;
 
-                const uuid_t &GetMessageUuid() const;
+                uuid_t &GetMessageUuid();
 
                 void SetMessageUuid(uuid_t messageUuid);
 
-                const std::set<int> &GetNodeList() const;
+                std::set<int> &GetNodeList();
 
                 void SetNodeList(std::set<int> nodeList);
 
-                const std::set<int> &GetAckNodes() const;
+                std::set<int> &GetAckNodes();
 
                 void SetAckNodes(std::set<int> ackNodes);
 
